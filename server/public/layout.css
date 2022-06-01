@@ -1,0 +1,51 @@
+.parent-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.login-form {
+  display: flex;
+  flex-direction: column;
+  margin-top: 10vh;
+  width: 320px;
+}
+
+.login-form > h1,
+.login-form > h2 {
+  text-align: center;
+}
+
+.welcome-p {
+  margin-bottom: 30px;
+}
+
+input {
+  display: block;
+  width: 100%;
+}
+
+::placeholder {
+  padding-left: 7px;
+}
+
+label {
+  margin-bottom: 15px;
+}
+
+.signin-button {
+  margin-top: 30px;
+}
+
+.loginform-p {
+  padding-top: 20px;
+  text-align: center;
+}
+
+.loginform-a {
+  margin-left: 5px;
+}
+
+p.red-warning {
+  margin-top: -15px;
+}
