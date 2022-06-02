@@ -40,8 +40,27 @@ export default class SignUp extends React.Component {
   }
 
   handleSubmit(event) {
-    // need code here to hook up to database
     event.preventDefault();
+    const req = {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(this.state)
+    };
+
+    if (this.state.password.length < 8 && this.state.confirmPassword === this.state.password) {
+      fetch('/api/auth/sign-up', req)
+        .then(res => res.json())
+        .then(result => {
+          console.log('it works');
+          // if (action === 'sign-up') {
+          //   window.location.hash = 'sign-in';
+          // } else if (result.user && result.token) {
+          //   this.props.onSignIn(result);
+          // }
+        });
+    }
   }
 
   render() {
@@ -57,13 +76,20 @@ export default class SignUp extends React.Component {
         : '';
     return (
       <div className="parent-container">
-        <form action="" className="login-form" id="login-form" onSubmit={this.handleSubmit}>
+        <form className="login-form" id="login-form" onSubmit={this.handleSubmit}>
           <h1>Jobify</h1>
           <h2><i>Create an account</i></h2>
           <p className='welcome-p'>Welcome guest! Please enter your details.</p>
           <label htmlFor="firstName">
             First Name
-            <input required type="name" name="firstName" id="firstName" onChange={this.handleFirstName} value={this.state.firstName} placeholder="Enter your first name" />
+              <input
+              required
+              type="name"
+              name="firstName"
+              id="firstName"
+              onChange={this.handleFirstName}
+              value={this.state.firstName}
+              placeholder="Enter your first name" />
           </label>
           <label htmlFor="lastName">
             Last Name
