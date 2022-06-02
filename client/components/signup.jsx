@@ -5,20 +5,26 @@ export default class SignUp extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      name: '',
+      firstName: '',
+      lastName: '',
       email: '',
       password: '',
       confirmPassword: ''
     };
-    this.handleNameChange = this.handleNameChange.bind(this);
+    this.handleFirstName = this.handleFirstName.bind(this);
+    this.handleLastName = this.handleLastName.bind(this);
     this.handleEmailChange = this.handleEmailChange.bind(this);
     this.handlePasswordChange = this.handlePasswordChange.bind(this);
     this.handleConfirmPasswordChange = this.handleConfirmPasswordChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
   }
 
-  handleNameChange(event) {
-    this.setState({ name: event.target.value });
+  handleFirstName(event) {
+    this.setState({ firstName: event.target.value });
+  }
+
+  handleLastName(event) {
+    this.setState({ lastName: event.target.value });
   }
 
   handleEmailChange(event) {
@@ -55,9 +61,13 @@ export default class SignUp extends React.Component {
           <h1>Jobify</h1>
           <h2><i>Create an account</i></h2>
           <p className='welcome-p'>Welcome guest! Please enter your details.</p>
-          <label htmlFor="name">
-            Name
-            <input required type="name" name="name" id="name" onChange={this.handleNameChange} value={this.state.name} placeholder="Enter your name" />
+          <label htmlFor="firstName">
+            First Name
+            <input required type="name" name="firstName" id="firstName" onChange={this.handleFirstName} value={this.state.firstName} placeholder="Enter your first name" />
+          </label>
+          <label htmlFor="lastName">
+            Last Name
+            <input required type="name" name="lastName" id="lastName" onChange={this.handleLastName} value={this.state.lastName} placeholder="Enter your last name" />
           </label>
           <label htmlFor="email">
             Email
