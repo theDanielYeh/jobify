@@ -48,12 +48,11 @@ export default class SignUp extends React.Component {
       },
       body: JSON.stringify(this.state)
     };
-
-    if (this.state.password.length < 8 && this.state.confirmPassword === this.state.password) {
+    if (this.state.password.length > 7 && this.state.confirmPassword === this.state.password) {
       fetch('/api/auth/sign-up', req)
         .then(res => res.json())
         .then(result => {
-          console.log('it works');
+          console.log('signup fetch works');
           // if (action === 'sign-up') {
           //   window.location.hash = 'sign-in';
           // } else if (result.user && result.token) {

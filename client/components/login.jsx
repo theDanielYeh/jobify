@@ -1,5 +1,6 @@
 import React from 'react';
 import Button from 'react-bootstrap/Button';
+import AppContext from '../lib/app-context';
 
 export default class LoginPage extends React.Component {
   constructor(props) {
@@ -22,8 +23,30 @@ export default class LoginPage extends React.Component {
   }
 
   handleSubmit(event) {
-    // need code here to hook up to database
     event.preventDefault();
+    const req = {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(this.state)
+    };
+
+    if (this.state.password.length > 0) {
+      fetch('/api/auth/sign-in', req)
+        .then(res => res.json())
+        .then(result => {
+          console.log('login fetch works');
+          // if (action === 'sign-up') {
+          //   window.location.hash = 'sign-in';
+          // } else if (result.user && result.token) {
+          //   this.props.onSignIn(result);
+          // }
+          if (result.user && result.token) {
+            handleSignIn(result);
+          }
+        });
+    }
   }
 
   render() {
@@ -49,3 +72,5 @@ export default class LoginPage extends React.Component {
     );
   }
 }
+
+LoginPage.contextType = AppContext;

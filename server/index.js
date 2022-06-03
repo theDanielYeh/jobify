@@ -38,7 +38,7 @@ app.post('/api/auth/sign-up', (req, res, next) => {
       return db.query(sql, params);
     })
     .then(result => {
-      console.log('this works too');
+      console.log(result.rows);
       const [user] = result.rows;
       res.status(201).json(user);
     })
@@ -46,33 +46,35 @@ app.post('/api/auth/sign-up', (req, res, next) => {
 });
 
 app.post('/api/auth/sign-in', (req, res, next) => {
-  const { username, password } = req.body;
-  if (!username || !password) {
+  const { email, password } = req.body;
+  if (!email || !password) {
     throw new ClientError(401, 'invalid login');
   }
   const sql = `
     select "userId",
-           "hashedPassword"
+           "password"
       from "users"
-     where "username" = $1
+     where "email" = $1
   `;
-  const params = [username];
+  const params = [email];
   db.query(sql, params)
     .then(result => {
       const [user] = result.rows;
       if (!user) {
         throw new ClientError(401, 'invalid login');
       }
-      const { userId, hashedPassword } = user;
+      const { userId } = user;
       return argon2
-        .verify(hashedPassword, password)
+        .verify(user.password, password)
+        // first password arg is hashed in db
         .then(isMatching => {
           if (!isMatching) {
             throw new ClientError(401, 'invalid login');
           }
-          const payload = { userId, username };
+          const payload = { userId, email };
           const token = jwt.sign(payload, process.env.TOKEN_SECRET);
           res.json({ token, user: payload });
+          console.log('match found, payload and token created');
         });
     })
     .catch(err => next(err));
