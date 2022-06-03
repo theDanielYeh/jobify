@@ -1,5 +1,6 @@
 import React from 'react';
 import Button from 'react-bootstrap/Button';
+import AppContext from '../lib/app-context';
 
 export default class SignUp extends React.Component {
   constructor(props) {
@@ -52,12 +53,16 @@ export default class SignUp extends React.Component {
       fetch('/api/auth/sign-up', req)
         .then(res => res.json())
         .then(result => {
-          console.log('signup fetch works');
+          console.log('signed up, returning to login page');
           // if (action === 'sign-up') {
           //   window.location.hash = 'sign-in';
           // } else if (result.user && result.token) {
           //   this.props.onSignIn(result);
           // }
+          if (result.user && result.token) {
+            const { handleSignIn } = this.context;
+            handleSignIn(result);
+          }
         });
     }
   }
@@ -116,3 +121,5 @@ export default class SignUp extends React.Component {
     );
   }
 }
+
+SignUp.contextType = AppContext;

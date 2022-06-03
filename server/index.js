@@ -38,9 +38,15 @@ app.post('/api/auth/sign-up', (req, res, next) => {
       return db.query(sql, params);
     })
     .then(result => {
-      console.log(result.rows);
-      const [user] = result.rows;
-      res.status(201).json(user);
+      console.log('index.js Line 41: ', result.rows);
+      // const [user] = result.rows;
+      // res.status(201).json(user);
+
+      const { userId, email } = result.rows[0];
+      const payload = { userId, email };
+      const token = jwt.sign(payload, process.env.TOKEN_SECRET);
+      res.status(201).json({ token, user: payload });
+      console.log('acct created, payload and token created');
     })
     .catch(err => next(err));
 });
