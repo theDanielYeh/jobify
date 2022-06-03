@@ -6,6 +6,82 @@ const errorMiddleware = require('./error-middleware');
 const app = express();
 const publicPath = path.join(__dirname, 'public');
 
+const pg = require('pg');
+const argon2 = require('argon2');
+const jwt = require('jsonwebtoken');
+const ClientError = require('./client-error');
+
+const db = new pg.Pool({
+  connectionString: process.env.DATABASE_URL,
+  ssl: {
+    rejectUnauthorized: false
+  }
+});
+
+const jsonMiddleware = express.json();
+app.use(jsonMiddleware);
+
+app.post('/api/auth/sign-up', (req, res, next) => {
+  const { firstName, lastName, email, password } = req.body;
+  if (!firstName || !lastName || !email || !password) {
+    throw new ClientError(400, 'all fields are required');
+  }
+  argon2
+    .hash(password)
+    .then(hashedPassword => {
+      const sql = `
+        insert into "users" ("firstName", "lastName", "email", "password")
+        values ($1, $2, $3, $4)
+        returning "userId", "email", "createdAt"
+      `;
+      const params = [firstName, lastName, email, hashedPassword];
+      return db.query(sql, params);
+    })
+    .then(result => {
+      console.log(result.rows);
+      const [user] = result.rows;
+      res.status(201).json(user);
+    })
+    .catch(err => next(err));
+});
+
+app.post('/api/auth/sign-in', (req, res, next) => {
+  const { email, password } = req.body;
+  if (!email || !password) {
+    throw new ClientError(401, 'invalid login');
+  }
+  const sql = `
+    select "userId",
+           "password"
+      from "users"
+     where "email" = $1
+  `;
+  const params = [email];
+  db.query(sql, params)
+    .then(result => {
+      const [user] = result.rows;
+      if (!user) {
+        throw new ClientError(401, 'invalid login');
+      }
+      const { userId } = user;
+      return argon2
+        .verify(user.password, password)
+        // first password arg is hashed in db
+        .then(isMatching => {
+          if (!isMatching) {
+            throw new ClientError(401, 'invalid login');
+          }
+          const payload = { userId, email };
+          const token = jwt.sign(payload, process.env.TOKEN_SECRET);
+          res.json({ token, user: payload });
+          console.log('match found, payload and token created');
+        });
+    })
+    .catch(err => next(err));
+});
+
+// below code provided
+
 if (process.env.NODE_ENV === 'development') {
   app.use(require('./dev-middleware')(publicPath));
 }
