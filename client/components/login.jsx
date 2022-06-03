@@ -36,13 +36,14 @@ export default class LoginPage extends React.Component {
       fetch('/api/auth/sign-in', req)
         .then(res => res.json())
         .then(result => {
-          console.log('login fetch works');
+          // hash-routing wil fall below:
           // if (action === 'sign-up') {
           //   window.location.hash = 'sign-in';
           // } else if (result.user && result.token) {
           //   this.props.onSignIn(result);
           // }
           if (result.user && result.token) {
+            const { handleSignIn } = this.context;
             handleSignIn(result);
           }
         });
