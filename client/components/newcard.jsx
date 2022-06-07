@@ -68,16 +68,17 @@ export default class NewCard extends React.Component {
           backdrop="static"
           keyboard={false}
         >
+          <Form onSubmit={this.handleSubmit}>
           <Modal.Header closeButton>
             <Modal.Title>New Applied Job</Modal.Title>
           </Modal.Header>
           <Modal.Body>
-            <Form>
+
               <Form.Group className="mb-3" controlId="formBasicEmail">
                 <Form.Label>Company Name</Form.Label>
                 <Form.Control
                   required
-                  type="email"
+                  type="text"
                   name="newCompany"
                   placeholder="Enter company name"
                   onChange={this.handleChange}
@@ -105,8 +106,9 @@ export default class NewCard extends React.Component {
               <Form.Group>
                 <Form.Label>Status</Form.Label>
                 {['radio'].map(type => (
-                  <div key={`inline-${type}`} className="mb-3" required>
+                  <div key={`inline-${type}`} className="mb-3">
                     <Form.Check
+                      required
                       inline
                       label="Active"
                       name="newStatus"
@@ -146,14 +148,15 @@ export default class NewCard extends React.Component {
                   onChange={this.handleChange}
                 />
               </Form.Group>
-            </Form>
+
           </Modal.Body>
           <Modal.Footer>
             <Button variant="secondary" onClick={toggle}>
               Close
             </Button>
-            <Button variant="primary" type="submit" onClick={this.handleSubmit} onSubmit={this.handleSubmit}>Save</Button>
+            <Button variant="primary" type="submit" >Save</Button>
           </Modal.Footer>
+          </Form>
         </Modal>
       </>
     );
