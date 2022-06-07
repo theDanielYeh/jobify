@@ -38,7 +38,7 @@ app.post('/api/auth/sign-up', (req, res, next) => {
       const sql = `
         insert into "users" ("firstName", "lastName", "email", "password")
         values ($1, $2, $3, $4)
-        returning "userId", "email", "createdAt"
+        returning "userId", "email", "createdAt", "firstName"
       `;
       const params = [firstName, lastName, email, hashedPassword];
       return db.query(sql, params);
@@ -48,8 +48,8 @@ app.post('/api/auth/sign-up', (req, res, next) => {
       // const [user] = result.rows;
       // res.status(201).json(user);
 
-      const { userId, email } = result.rows[0];
-      const payload = { userId, email };
+      const { userId, email, firstName } = result.rows[0];
+      const payload = { userId, email, firstName };
       const token = jwt.sign(payload, process.env.TOKEN_SECRET);
       res.status(201).json({ token, user: payload });
       console.log('acct created, payload and token created');
@@ -63,19 +63,20 @@ app.post('/api/auth/sign-in', (req, res, next) => {
     throw new ClientError(401, 'invalid login');
   }
   const sql = `
-    select "userId",
-           "password"
-      from "users"
+    select *
+      from "jobList"
+      join "users" using ("userId")
      where "email" = $1
   `;
   const params = [email];
   db.query(sql, params)
     .then(result => {
       const [user] = result.rows;
+      const dataArray = result.rows;
       if (!user) {
         throw new ClientError(401, 'invalid login');
       }
-      const { userId } = user;
+      const { userId, firstName } = user;
       return argon2
         .verify(user.password, password)
         // first password arg is hashed in db
@@ -83,11 +84,10 @@ app.post('/api/auth/sign-in', (req, res, next) => {
           if (!isMatching) {
             throw new ClientError(401, 'invalid login');
           }
-          const payload = { userId, email };
+          const payload = { userId, firstName, dataArray };
           const token = jwt.sign(payload, process.env.TOKEN_SECRET);
           res.json({ token, user: payload });
           console.log('match found, payload and token created');
-          console.log(req.userId);
         });
     })
     .catch(err => next(err));

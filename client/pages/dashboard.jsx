@@ -19,14 +19,15 @@ export default class Dashboard extends React.Component {
   }
 
   render() {
-    const { handleSignOut } = this.context;
+    const { user, handleSignOut } = this.context;
+    console.log(user.dataArray);
     const newCard = this.state.newCard ? <NewCard handleMe={this.handleNewCard}/> : null;
     return (
       <>
       {newCard}
       <Navbar bg="primary" variant="dark">
         <Container className="dashboard-container">
-          <Navbar.Brand href="#home">Welcome [user]!</Navbar.Brand>
+          <Navbar.Brand href="#home">Welcome back, {user.firstName}!</Navbar.Brand>
           <Nav className="me-auto">
             <Nav.Link href="#dashboard">Dashboard</Nav.Link>
             <Nav.Link href="" onClick={this.handleNewCard}>
@@ -38,6 +39,11 @@ export default class Dashboard extends React.Component {
 
         </Container>
       </Navbar>
+      {user.dataArray.map(item => {
+        return (
+          <p key={item.jobId}>{item.company}</p>
+        );
+      })}
       </>
     );
   }
