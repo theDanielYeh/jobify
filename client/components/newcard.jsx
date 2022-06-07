@@ -12,6 +12,7 @@ export default class NewCard extends React.Component {
       newNotes: ''
     };
     this.handleChange = this.handleChange.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
   }
 
   handleChange(event) {
@@ -19,7 +20,35 @@ export default class NewCard extends React.Component {
     const value = event.target.value;
 
     this.setState({ [name]: value });
-    console.log(this.state);
+  }
+
+  handleSubmit(event) {
+    event.preventDefault();
+    const toggle = this.props.handleMe;
+    toggle();
+    const req = {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'X-Access-Token': localStorage.getItem('react-context-jwt')
+      },
+      body: JSON.stringify(this.state)
+    };
+
+    fetch('/api/auth/new-card', req)
+      .then(res => res.json())
+      .then(result => {
+        console.log('newCard handleSubmit fetch returned.');
+        // if (action === 'sign-up') {
+        //   window.location.hash = 'sign-in';
+        // } else if (result.user && result.token) {
+        //   this.props.onSignIn(result);
+        // }
+        if (result.user && result.token) {
+          const { handleSignIn } = this.context;
+          handleSignIn(result);
+        }
+      });
   }
 
   render() {
@@ -47,6 +76,7 @@ export default class NewCard extends React.Component {
               <Form.Group className="mb-3" controlId="formBasicEmail">
                 <Form.Label>Company Name</Form.Label>
                 <Form.Control
+                  required
                   type="email"
                   name="newCompany"
                   placeholder="Enter company name"
@@ -56,6 +86,7 @@ export default class NewCard extends React.Component {
               <Form.Group className="mb-3" controlId="formBasicPosition">
                 <Form.Label>Position</Form.Label>
                 <Form.Control
+                  required
                   type="text"
                   name="newPosition"
                   placeholder="Enter position applied for"
@@ -65,6 +96,7 @@ export default class NewCard extends React.Component {
               <Form.Group className="mb-3" controlId="formBasicDate">
                 <Form.Label>Date Applied</Form.Label>
                 <Form.Control
+                  required
                   type="date"
                   name="newDate"
                   onChange={this.handleChange}
@@ -73,7 +105,7 @@ export default class NewCard extends React.Component {
               <Form.Group>
                 <Form.Label>Status</Form.Label>
                 {['radio'].map(type => (
-                  <div key={`inline-${type}`} className="mb-3">
+                  <div key={`inline-${type}`} className="mb-3" required>
                     <Form.Check
                       inline
                       label="Active"
@@ -113,7 +145,6 @@ export default class NewCard extends React.Component {
                   placeholder="Enter any notes"
                   onChange={this.handleChange}
                 />
-
               </Form.Group>
             </Form>
           </Modal.Body>
@@ -121,7 +152,7 @@ export default class NewCard extends React.Component {
             <Button variant="secondary" onClick={toggle}>
               Close
             </Button>
-            <Button variant="primary" type="submit">Save</Button>
+            <Button variant="primary" type="submit" onClick={this.handleSubmit} onSubmit={this.handleSubmit}>Save</Button>
           </Modal.Footer>
         </Modal>
       </>
