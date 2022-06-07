@@ -18,8 +18,14 @@ const db = new pg.Pool({
   }
 });
 
+if (process.env.NODE_ENV === 'development') {
+  app.use(require('./dev-middleware')(publicPath));
+}
+
+app.use(express.static(publicPath));
 const jsonMiddleware = express.json();
 app.use(jsonMiddleware);
+const authorizationMiddleware = require('./authorization-middleware');
 
 app.post('/api/auth/sign-up', (req, res, next) => {
   const { firstName, lastName, email, password } = req.body;
@@ -38,9 +44,15 @@ app.post('/api/auth/sign-up', (req, res, next) => {
       return db.query(sql, params);
     })
     .then(result => {
-      console.log(result.rows);
-      const [user] = result.rows;
-      res.status(201).json(user);
+      console.log('index.js Line 41: ', result.rows);
+      // const [user] = result.rows;
+      // res.status(201).json(user);
+
+      const { userId, email } = result.rows[0];
+      const payload = { userId, email };
+      const token = jwt.sign(payload, process.env.TOKEN_SECRET);
+      res.status(201).json({ token, user: payload });
+      console.log('acct created, payload and token created');
     })
     .catch(err => next(err));
 });
@@ -75,22 +87,34 @@ app.post('/api/auth/sign-in', (req, res, next) => {
           const token = jwt.sign(payload, process.env.TOKEN_SECRET);
           res.json({ token, user: payload });
           console.log('match found, payload and token created');
+          console.log(req.userId);
         });
     })
     .catch(err => next(err));
 });
 
-// below code provided
+app.use(authorizationMiddleware);
 
-if (process.env.NODE_ENV === 'development') {
-  app.use(require('./dev-middleware')(publicPath));
-}
-
-app.use(express.static(publicPath));
-
-app.get('/api/hello', (req, res) => {
-  res.json({ hello: 'world' });
+app.post('/api/auth/new-card', (req, res, next) => {
+  console.log(req.user.userId);
+  const { newCompany, newPosition, newDate, newStatus, newNotes } = req.body;
+  const sql = `
+    insert into "jobList" ("userId", "company", "position", "dateApplied", "status", "notes")
+    values ($1, $2, $3, $4, $5, $6)
+    returning *
+  `;
+  const params = [req.user.userId, newCompany, newPosition, newDate, newStatus, newNotes];
+  db.query(sql, params)
+    .then(result => {
+      const [jobId] = result.rows;
+      if (!jobId) {
+        throw new ClientError(401, 'jobId not returned, job not saved');
+      }
+    })
+    .catch(err => next(err));
 });
+
+// below code provided
 
 app.use(errorMiddleware);
 
