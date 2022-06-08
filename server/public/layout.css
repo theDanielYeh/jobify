@@ -52,3 +52,65 @@ p.red-warning {
 }
 
 /* dashboard */
+
+/* list of data */
+.card-deck {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  padding: 10px;
+  width: 100vw;
+  max-width: 1000px;
+}
+
+.card-wrapper {
+  display: flex;
+  flex-basis: calc(100%/3);
+  justify-content: center;
+  align-items: center;
+  padding: 5px;
+}
+
+.pokemon-card {
+  color: lightblue;
+
+  /* background-color: rgb(12, 110, 253); */
+  background-image: linear-gradient(to bottom, rgb(58, 58, 58), black);
+  padding: 1rem;
+  border: 1px solid lightgray;
+  border-radius: 1rem;
+  box-shadow: 0 8px 8px -8px rgb(0 0 0 / 50%);
+  width: 300px;
+  height: 300px;
+  position: relative;
+}
+
+html {
+  width: 100vw;
+}
+
+body {
+  width: 100vw;
+}
+
+.navbar {
+  width: 100vw;
+}
+
+#root {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background-color: rgb(203, 234, 254);
+}
+
+.bottom-half-card {
+  display: flex;
+  position: absolute;
+  bottom: 5px;
+
+  /* height: 70%; */
+  flex-direction: column;
+  justify-content: end;
+}
