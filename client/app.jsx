@@ -49,7 +49,7 @@ export default class App extends React.Component {
     const pageToRender = !user ? <Home /> : <Dashboard />;
     return (
       <AppContext.Provider value={contextValue}>
-        {pageToRender};
+        {pageToRender}
       </AppContext.Provider>
 
     );

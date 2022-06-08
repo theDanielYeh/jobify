@@ -72,14 +72,17 @@ p.red-warning {
 }
 
 .pokemon-card {
-  color: white;
-  background-color: rgb(12, 110, 253);
-  padding: 0.5rem;
+  color: lightblue;
+
+  /* background-color: rgb(12, 110, 253); */
+  background-image: linear-gradient(to bottom, rgb(58, 58, 58), black);
+  padding: 1rem;
   border: 1px solid lightgray;
   border-radius: 1rem;
   box-shadow: 0 8px 8px -8px rgb(0 0 0 / 50%);
   width: 300px;
   height: 300px;
+  position: relative;
 }
 
 html {
@@ -99,11 +102,15 @@ body {
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  background-color: rgb(203, 234, 254);
 }
 
 .bottom-half-card {
   display: flex;
-  height: 70%;
+  position: absolute;
+  bottom: 5px;
+
+  /* height: 70%; */
   flex-direction: column;
   justify-content: end;
 }

@@ -51,8 +51,13 @@ export default class Dashboard extends React.Component {
 
               <div key={item.jobId} className="card-wrapper">
                 <div className="pokemon-card">
-                  <h3>Company: {item.company}</h3>
-                  <h3>Position: {item.position}</h3>
+                  <div className="top-half-card">
+                    <h3>{item.company}</h3>
+                    <h3><em>{item.position}</em></h3>
+                  </div>
+                  <div className="middle-half-card">
+                    <h6>{item.notes}</h6>
+                  </div>
                   <div className="bottom-half-card">
                     <p className={statusColor}>{item.status}</p>
                     <p>Applied: {item.dateApplied.substring(0, 10)}</p>
