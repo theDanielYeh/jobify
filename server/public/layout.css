@@ -52,3 +52,37 @@ p.red-warning {
 }
 
 /* dashboard */
+
+/* list of data */
+.card-deck {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  padding: 10px;
+  max-width: 1000px;
+}
+
+.card-wrapper {
+  display: flex;
+  flex-basis: calc(100%/3);
+  justify-content: center;
+  align-items: center;
+  padding: 5px;
+}
+
+.pokemon-card {
+  color: white;
+  background-color: black;
+  padding: 0.5rem;
+  border: 1px solid lightgray;
+  border-radius: 0.25rem;
+  box-shadow: 0 8px 8px -8px rgb(0 0 0 / 50%);
+  width: 200px;
+  height: 200px;
+}
+
+body {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}

@@ -1,5 +1,5 @@
 import React from 'react';
-import { Navbar, Container, Nav } from 'react-bootstrap';
+import { Navbar, Container, Nav, Card, Button } from 'react-bootstrap';
 import AppContext from '../lib/app-context';
 import NewCard from '../components/newcard';
 
@@ -39,11 +39,19 @@ export default class Dashboard extends React.Component {
 
         </Container>
       </Navbar>
-      {user.dataArray.map(item => {
-        return (
-          <p key={item.jobId}>{item.company}</p>
-        );
-      })}
+      <div className="card-deck">
+        {user.dataArray.map(item => {
+          return (
+          // <p key={item.jobId}>{item.company}</p>
+              <div key={item.jobId} className="card-wrapper">
+                <div className="pokemon-card">
+                  <h2>Company: {item.company}</h2>
+                  <h2>Position: {item.position}</h2>
+                </div>
+              </div>
+          );
+        })}
+      </div>
       </>
     );
   }

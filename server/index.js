@@ -72,7 +72,6 @@ app.post('/api/auth/sign-in', (req, res, next) => {
   db.query(sql, params)
     .then(result => {
       const [user] = result.rows;
-      const dataArray = result.rows;
       if (!user) {
         throw new ClientError(401, 'invalid login');
       }
@@ -84,6 +83,10 @@ app.post('/api/auth/sign-in', (req, res, next) => {
           if (!isMatching) {
             throw new ClientError(401, 'invalid login');
           }
+          const dataArray = result.rows.slice().map(item => {
+            delete item.password;
+            return item;
+          });
           const payload = { userId, firstName, dataArray };
           const token = jwt.sign(payload, process.env.TOKEN_SECRET);
           res.json({ token, user: payload });
