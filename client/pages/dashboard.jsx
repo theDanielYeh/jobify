@@ -25,7 +25,7 @@ export default class Dashboard extends React.Component {
     return (
       <>
       {newCard}
-      <Navbar bg="primary" variant="dark">
+      <Navbar bg="primary" variant="dark" className='navbar'>
         <Container className="dashboard-container">
           <Navbar.Brand href="#home">Welcome back, {user.firstName}!</Navbar.Brand>
           <Nav className="me-auto">
@@ -41,12 +41,22 @@ export default class Dashboard extends React.Component {
       </Navbar>
       <div className="card-deck">
         {user.dataArray.map(item => {
+          const statusColor = item.status === 'Active'
+            ? 'orange-color'
+            : item.status === 'Offered'
+              ? 'green-color'
+              : 'gray-color';
           return (
           // <p key={item.jobId}>{item.company}</p>
+
               <div key={item.jobId} className="card-wrapper">
                 <div className="pokemon-card">
-                  <h2>Company: {item.company}</h2>
-                  <h2>Position: {item.position}</h2>
+                  <h3>Company: {item.company}</h3>
+                  <h3>Position: {item.position}</h3>
+                  <div className="bottom-half-card">
+                    <p className={statusColor}>{item.status}</p>
+                    <p>Applied: {item.dateApplied.substring(0, 10)}</p>
+                  </div>
                 </div>
               </div>
           );

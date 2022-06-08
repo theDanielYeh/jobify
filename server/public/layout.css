@@ -59,6 +59,7 @@ p.red-warning {
   flex-wrap: wrap;
   justify-content: center;
   padding: 10px;
+  width: 100vw;
   max-width: 1000px;
 }
 
@@ -72,17 +73,37 @@ p.red-warning {
 
 .pokemon-card {
   color: white;
-  background-color: black;
+  background-color: rgb(12, 110, 253);
   padding: 0.5rem;
   border: 1px solid lightgray;
-  border-radius: 0.25rem;
+  border-radius: 1rem;
   box-shadow: 0 8px 8px -8px rgb(0 0 0 / 50%);
-  width: 200px;
-  height: 200px;
+  width: 300px;
+  height: 300px;
+}
+
+html {
+  width: 100vw;
 }
 
 body {
+  width: 100vw;
+}
+
+.navbar {
+  width: 100vw;
+}
+
+#root {
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
+}
+
+.bottom-half-card {
+  display: flex;
+  height: 70%;
+  flex-direction: column;
+  justify-content: end;
 }

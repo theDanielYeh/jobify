@@ -2,3 +2,15 @@ p.red-warning {
   font-size: 14px;
   color: red;
 }
+
+.orange-color {
+  color: orange;
+}
+
+.green-color {
+  color: rgb(65, 232, 65);
+}
+
+.gray-color {
+  color: lightgray;
+}
