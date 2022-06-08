@@ -114,3 +114,11 @@ body {
   flex-direction: column;
   justify-content: end;
 }
+
+.fa-ellipsis-vertical {
+  cursor: pointer;
+  display: flex;
+  position: absolute;
+  right: 20px;
+  top: 20px;
+}

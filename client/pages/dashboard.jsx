@@ -54,6 +54,7 @@ export default class Dashboard extends React.Component {
                   <div className="top-half-card">
                     <h3>{item.company}</h3>
                     <h3><em>{item.position}</em></h3>
+                    <i className="fa-solid fa-ellipsis-vertical"></i>
                   </div>
                   <div className="middle-half-card">
                     <h6>{item.notes}</h6>
