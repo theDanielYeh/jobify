@@ -2,14 +2,18 @@ import React from 'react';
 import { Navbar, Container, Nav, Card, Button } from 'react-bootstrap';
 import AppContext from '../lib/app-context';
 import NewCard from '../components/newcard';
+import EditCard from '../components/editcard';
 
 export default class Dashboard extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      newCard: false
+      newCard: false,
+      editCard: false,
+      searchJobId: ''
     };
     this.handleNewCard = this.handleNewCard.bind(this);
+    this.handleEditCard = this.handleEditCard.bind(this);
   }
 
   handleNewCard() {
@@ -18,13 +22,47 @@ export default class Dashboard extends React.Component {
     });
   }
 
+  handleEditCard(jobId) {
+    this.setState({
+      editCard: !this.state.editCard
+      // searchJobId: jobId
+    });
+    console.log(jobId);
+    const req = {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        'X-Access-Token': localStorage.getItem('react-context-jwt')
+      },
+      body: JSON.stringify(this.state)
+    };
+    // fetch('/api/auth/saved-card', req)
+    //   .then(res => res.json())
+    //   .then(result => {
+    //     console.log('newCard handleSubmit fetch returned.');
+    //     // if (action === 'sign-up') {
+    //     //   window.location.hash = 'sign-in';
+    //     // } else if (result.user && result.token) {
+    //     //   this.props.onSignIn(result);
+    //     // }
+    //     if (result.user && result.token) {
+    //       const { handleSignIn } = this.context;
+    //       handleSignIn(result);
+    //     }
+    //   });
+  }
+
   render() {
     const { user, handleSignOut } = this.context;
     console.log(user.dataArray);
-    const newCard = this.state.newCard ? <NewCard handleMe={this.handleNewCard}/> : null;
+    const popCard = this.state.newCard
+      ? <NewCard handleMe={this.handleNewCard}/>
+      : this.state.editCard
+        ? <EditCard handleMe={this.handleEditCard} />
+        : null;
     return (
       <>
-      {newCard}
+      {popCard}
       <Navbar bg="primary" variant="dark" className='navbar'>
         <Container className="dashboard-container">
           <Navbar.Brand href="#home">Welcome back, {user.firstName}!</Navbar.Brand>
@@ -47,14 +85,14 @@ export default class Dashboard extends React.Component {
               ? 'green-color'
               : 'gray-color';
           return (
-          // <p key={item.jobId}>{item.company}</p>
-
-              <div key={item.jobId} className="card-wrapper">
+            <div key={item.jobId} className="card-wrapper">
                 <div className="pokemon-card">
                   <div className="top-half-card">
                     <h3>{item.company}</h3>
                     <h3><em>{item.position}</em></h3>
-                    <i className="fa-solid fa-ellipsis-vertical"></i>
+                    <div className="" onClick={() => this.handleEditCard(item.jobId)}>
+                      <i className="fa-solid fa-ellipsis-vertical" ></i>
+                    </div>
                   </div>
                   <div className="middle-half-card">
                     <h6>{item.notes}</h6>

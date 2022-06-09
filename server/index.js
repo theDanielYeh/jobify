@@ -117,6 +117,25 @@ app.post('/api/auth/new-card', (req, res, next) => {
     .catch(err => next(err));
 });
 
+app.get('/api/auth/saved-card', (req, res, next) => {
+  console.log(req.user.userId);
+  const { newCompany, newPosition, newDate, newStatus, newNotes } = req.body;
+  const sql = `
+    insert into "jobList" ("userId", "company", "position", "dateApplied", "status", "notes")
+    values ($1, $2, $3, $4, $5, $6)
+    returning *
+  `;
+  const params = [req.user.userId, newCompany, newPosition, newDate, newStatus, newNotes];
+  db.query(sql, params)
+    .then(result => {
+      const [jobId] = result.rows;
+      if (!jobId) {
+        throw new ClientError(401, 'jobId not returned, job not saved');
+      }
+    })
+    .catch(err => next(err));
+});
+
 // below code provided
 
 app.use(errorMiddleware);
