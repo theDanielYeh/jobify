@@ -35,22 +35,24 @@ export default class App extends React.Component {
     const { user, token } = result;
     window.localStorage.setItem('react-context-jwt', token);
     this.setState({ user });
-    console.log(user);
+    console.log('handleSignIn user data: ', user);
   }
 
-  handleCardEvents(result) {
+  handleCardEvents() {
     const req = {
       method: 'POST',
       headers: {
-        'Content-Type': 'application/json'
+        'Content-Type': 'application/json',
+        'X-Access-Token': localStorage.getItem('react-context-jwt')
       },
       body: JSON.stringify(this.state)
     };
-    fetch('/api/auth/sign-in', req)
+    fetch('/api/auth/handleCardEvents', req)
       .then(res => res.json())
       .then(result => {
         const { user } = result;
         this.setState({ user });
+        console.log('handleCardEvents user data: ', user);
       }
       );
   }

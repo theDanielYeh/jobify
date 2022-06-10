@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Button, Modal, Form } from 'react-bootstrap';
+import AppContext from '../lib/app-context';
 
 export default class EditCard extends React.Component {
   constructor(props) {
@@ -57,6 +58,8 @@ export default class EditCard extends React.Component {
       .then(res => res.json())
       .then(result => {
         console.log('newCard handleSubmit fetch returned.');
+        const { handleCardEvents } = this.context;
+        handleCardEvents();
         // if (action === 'sign-up') {
         //   window.location.hash = 'sign-in';
         // } else if (result.user && result.token) {
@@ -190,3 +193,4 @@ export default class EditCard extends React.Component {
     );
   }
 }
+EditCard.contextType = AppContext;

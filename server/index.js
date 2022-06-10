@@ -67,7 +67,7 @@ app.post('/api/auth/sign-in', (req, res, next) => {
       from "jobList"
       join "users" using ("userId")
       where "email" = $1
-      order by "dateApplied" desc
+      order by "dateApplied" desc, "jobId" desc
   `;
   const params = [email];
   db.query(sql, params)
@@ -100,7 +100,7 @@ app.post('/api/auth/sign-in', (req, res, next) => {
 app.use(authorizationMiddleware);
 
 app.post('/api/auth/new-card', (req, res, next) => {
-  console.log(req.user.userId);
+  console.log('newcard userid: ', req.user.userId);
   const { newCompany, newPosition, newDate, newStatus, newNotes } = req.body;
   const sql = `
     insert into "jobList" ("userId", "company", "position", "dateApplied", "status", "notes")
@@ -114,6 +114,7 @@ app.post('/api/auth/new-card', (req, res, next) => {
       if (!jobId) {
         throw new ClientError(401, 'jobId not returned, job not saved');
       }
+      res.json(result);
     })
     .catch(err => next(err));
 });
@@ -158,6 +159,35 @@ app.post('/api/auth/edit-card', (req, res, next) => {
       if (!result.rows) {
         throw new ClientError(401, 'jobId not returned, job not saved');
       }
+      res.json(result);
+    })
+    .catch(err => next(err));
+});
+
+app.post('/api/auth/handleCardEvents', (req, res, next) => {
+  const { userId } = req.user;
+  const sql = `
+      select *
+      from "jobList"
+      join "users" using ("userId")
+      where "userId" = $1
+      order by "dateApplied" desc, "jobId" desc
+  `;
+  const params = [userId];
+  db.query(sql, params)
+    .then(result => {
+      const [user] = result.rows;
+      if (!user) {
+        throw new ClientError(401, 'invalid login');
+      }
+      const { firstName } = user;
+      const dataArray = result.rows.slice().map(item => {
+        delete item.password;
+        return item;
+      });
+      const payload = { userId, firstName, dataArray };
+      // const token = jwt.sign(payload, process.env.TOKEN_SECRET);
+      res.json({ user: payload });
     })
     .catch(err => next(err));
 });

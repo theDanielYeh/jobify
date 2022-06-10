@@ -40,16 +40,10 @@ export default class NewCard extends React.Component {
       .then(res => res.json())
       .then(result => {
         console.log('newCard handleSubmit fetch returned.');
-        // if (action === 'sign-up') {
-        //   window.location.hash = 'sign-in';
-        // } else if (result.user && result.token) {
-        //   this.props.onSignIn(result);
-        // }
-        if (result.user) {
-          const { handleCardEvents } = this.context;
-          handleCardEvents(result);
-        }
-      });
+        const { handleCardEvents } = this.context;
+        handleCardEvents();
+      }
+      );
   }
 
   render() {

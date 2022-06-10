@@ -59,7 +59,7 @@ export default class Dashboard extends React.Component {
 
   render() {
     const { user, handleSignOut } = this.context;
-    console.log(user.dataArray);
+    console.log('dashboard dataArray: ', user.dataArray);
     const popCard = this.state.newCard
       ? <NewCard handleMe={this.handleNewCard}/>
       : this.state.editCard
