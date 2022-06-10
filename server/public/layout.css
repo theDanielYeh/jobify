@@ -60,15 +60,19 @@ p.red-warning {
   justify-content: center;
   padding: 10px;
   width: 100vw;
-  max-width: 1000px;
+  margin-top: 15px;
+
+  /* max-width: 1050px; */
 }
 
 .card-wrapper {
   display: flex;
-  flex-basis: calc(100%/3);
+
+  /* flex-basis: calc(100%/3); */
   justify-content: center;
   align-items: center;
   padding: 5px;
+  margin-bottom: 25px;
 }
 
 .pokemon-card {
@@ -94,8 +98,33 @@ body {
 }
 
 .navbar {
+  display: flex;
+  position: relative;
   width: 100vw;
-  background-color: rgba(11, 9, 37, 0.89);
+  background-color: rgba(11, 9, 37, 0.79);
+  height: 50px;
+}
+
+.dashboard-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100vw;
+}
+
+.nav-brand {
+  position: absolute;
+  left: 5vw;
+}
+
+.nav-welcome {
+  position: absolute;
+  left: 45vw;
+}
+
+.me-auto {
+  position: absolute;
+  right: 5vw;
 }
 
 #root {

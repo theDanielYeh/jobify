@@ -120,7 +120,8 @@ export default class Dashboard extends React.Component {
       {popCard}
       <Navbar bg="" variant="dark" className='navbar'>
         <Container className="dashboard-container">
-          <Navbar.Brand href="#home">Welcome back, {user.firstName}!</Navbar.Brand>
+          <Navbar.Brand href="#home" className='nav-brand'><em>Jobify</em></Navbar.Brand>
+          <Navbar.Brand href="#home" className='nav-welcome'>Welcome back, {user.firstName}!</Navbar.Brand>
           <Nav className="me-auto">
             <Nav.Link href="#dashboard">Dashboard</Nav.Link>
             <Nav.Link href="" onClick={this.handleNewCard}>
