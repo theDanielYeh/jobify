@@ -10,10 +10,11 @@ export default class Dashboard extends React.Component {
     this.state = {
       newCard: false,
       editCard: false,
-      searchJobId: ''
+      savedJobData: ''
     };
     this.handleNewCard = this.handleNewCard.bind(this);
     this.handleEditCard = this.handleEditCard.bind(this);
+    this.toggleEditCard = this.toggleEditCard.bind(this);
   }
 
   handleNewCard() {
@@ -22,34 +23,38 @@ export default class Dashboard extends React.Component {
     });
   }
 
-  handleEditCard(jobId) {
+  toggleEditCard() {
     this.setState({
       editCard: !this.state.editCard
-      // searchJobId: jobId
     });
-    console.log(jobId);
+  }
+
+  handleEditCard(jobId) {
     const req = {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
         'X-Access-Token': localStorage.getItem('react-context-jwt')
-      },
-      body: JSON.stringify(this.state)
+      }
     };
-    // fetch('/api/auth/saved-card', req)
-    //   .then(res => res.json())
-    //   .then(result => {
-    //     console.log('newCard handleSubmit fetch returned.');
-    //     // if (action === 'sign-up') {
-    //     //   window.location.hash = 'sign-in';
-    //     // } else if (result.user && result.token) {
-    //     //   this.props.onSignIn(result);
-    //     // }
-    //     if (result.user && result.token) {
-    //       const { handleSignIn } = this.context;
-    //       handleSignIn(result);
-    //     }
-    //   });
+    fetch(`/api/auth/saved-card/${jobId}`, req)
+      .then(res => res.json())
+      .then(result => {
+        this.setState({
+          savedJobData: result.payload
+        });
+        console.log('handleEditCard fetch returned.');
+        this.toggleEditCard();
+        // if (action === 'sign-up') {
+        //   window.location.hash = 'sign-in';
+        // } else if (result.user && result.token) {
+        //   this.props.onSignIn(result);
+        // }
+        // if (result.user && result.token) {
+        //   const { handleSignIn } = this.context;
+        //   handleSignIn(result);
+      }
+      );
   }
 
   render() {
@@ -58,7 +63,7 @@ export default class Dashboard extends React.Component {
     const popCard = this.state.newCard
       ? <NewCard handleMe={this.handleNewCard}/>
       : this.state.editCard
-        ? <EditCard handleMe={this.handleEditCard} />
+        ? <EditCard handleMe={this.toggleEditCard} dataToLoadJob={this.state.savedJobData}/>
         : null;
     return (
       <>

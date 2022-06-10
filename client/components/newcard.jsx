@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Button, Modal, Form } from 'react-bootstrap';
+import AppContext from '../lib/app-context';
 
 export default class NewCard extends React.Component {
   constructor(props) {
@@ -44,9 +45,9 @@ export default class NewCard extends React.Component {
         // } else if (result.user && result.token) {
         //   this.props.onSignIn(result);
         // }
-        if (result.user && result.token) {
-          const { handleSignIn } = this.context;
-          handleSignIn(result);
+        if (result.user) {
+          const { handleCardEvents } = this.context;
+          handleCardEvents(result);
         }
       });
   }
@@ -162,3 +163,5 @@ export default class NewCard extends React.Component {
     );
   }
 }
+
+NewCard.contextType = AppContext;

@@ -18,6 +18,7 @@ export default class App extends React.Component {
     };
     this.handleSignIn = this.handleSignIn.bind(this);
     this.handleSignOut = this.handleSignOut.bind(this);
+    this.handleCardEvents = this.handleCardEvents.bind(this);
   }
 
   componentDidMount() {
@@ -37,6 +38,23 @@ export default class App extends React.Component {
     console.log(user);
   }
 
+  handleCardEvents(result) {
+    const req = {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(this.state)
+    };
+    fetch('/api/auth/sign-in', req)
+      .then(res => res.json())
+      .then(result => {
+        const { user } = result;
+        this.setState({ user });
+      }
+      );
+  }
+
   handleSignOut() {
     window.localStorage.removeItem('react-context-jwt');
     this.setState({ user: null });
@@ -44,8 +62,8 @@ export default class App extends React.Component {
 
   render() {
     const { user, route } = this.state;
-    const { handleSignIn, handleSignOut } = this;
-    const contextValue = { user, route, handleSignIn, handleSignOut };
+    const { handleSignIn, handleSignOut, handleCardEvents } = this;
+    const contextValue = { user, route, handleSignIn, handleSignOut, handleCardEvents };
     const pageToRender = !user ? <Home /> : <Dashboard />;
     return (
       <AppContext.Provider value={contextValue}>

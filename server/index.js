@@ -66,7 +66,8 @@ app.post('/api/auth/sign-in', (req, res, next) => {
     select *
       from "jobList"
       join "users" using ("userId")
-     where "email" = $1
+      where "email" = $1
+      order by "dateApplied" desc
   `;
   const params = [email];
   db.query(sql, params)
@@ -117,19 +118,44 @@ app.post('/api/auth/new-card', (req, res, next) => {
     .catch(err => next(err));
 });
 
-app.get('/api/auth/saved-card', (req, res, next) => {
-  console.log(req.user.userId);
-  const { newCompany, newPosition, newDate, newStatus, newNotes } = req.body;
+app.get('/api/auth/saved-card/:searchJobId', (req, res, next) => {
+  const searchJobId = Number(req.params.searchJobId);
   const sql = `
-    insert into "jobList" ("userId", "company", "position", "dateApplied", "status", "notes")
-    values ($1, $2, $3, $4, $5, $6)
-    returning *
+    select *
+      from "jobList"
+     where "jobId" = $1
   `;
-  const params = [req.user.userId, newCompany, newPosition, newDate, newStatus, newNotes];
+  const params = [searchJobId];
   db.query(sql, params)
     .then(result => {
-      const [jobId] = result.rows;
-      if (!jobId) {
+      // const [jobId] = result.rows;
+      console.log(result.rows[0]);
+      if (!result.rows) {
+        throw new ClientError(401, 'jobId not returned, job not saved');
+      }
+      const payload = result.rows[0];
+      res.json({ payload });
+    })
+    .catch(err => next(err));
+});
+
+app.post('/api/auth/edit-card', (req, res, next) => {
+  const { savedJobId, newCompany, newPosition, newDate, newStatus, newNotes } = req.body;
+  const sql = `
+    update "jobList"
+    set "company" = $2,
+      "position" = $3,
+      "dateApplied" = $4,
+      "status" = $5,
+      "notes" = $6
+    where "jobId" = $1
+  `;
+  const params = [savedJobId, newCompany, newPosition, newDate, newStatus, newNotes];
+  db.query(sql, params)
+    .then(result => {
+      // const [jobId] = result.rows;
+      console.log(result.rows);
+      if (!result.rows) {
         throw new ClientError(401, 'jobId not returned, job not saved');
       }
     })
