@@ -58,20 +58,22 @@ app.post('/api/auth/sign-up', (req, res, next) => {
 });
 
 app.post('/api/auth/sign-in', (req, res, next) => {
+  console.log('it is making its way to sign in backend');
   const { email, password } = req.body;
   if (!email || !password) {
     throw new ClientError(401, 'invalid login');
   }
   const sql = `
     select *
-      from "jobList"
-      join "users" using ("userId")
+      from "users"
+
       where "email" = $1
-      order by "dateApplied" desc, "jobId" desc
+
   `;
   const params = [email];
   db.query(sql, params)
     .then(result => {
+      console.log(result.rows);
       const [user] = result.rows;
       if (!user) {
         throw new ClientError(401, 'invalid login');
@@ -84,11 +86,11 @@ app.post('/api/auth/sign-in', (req, res, next) => {
           if (!isMatching) {
             throw new ClientError(401, 'invalid login');
           }
-          const dataArray = result.rows.slice().map(item => {
-            delete item.password;
-            return item;
-          });
-          const payload = { userId, firstName, dataArray };
+          // const dataArray = result.rows.slice().map(item => {
+          //   delete item.password;
+          //   return item;
+          // });
+          const payload = { userId, firstName };
           const token = jwt.sign(payload, process.env.TOKEN_SECRET);
           res.json({ token, user: payload });
           console.log('match found, payload and token created');
@@ -165,7 +167,8 @@ app.post('/api/auth/edit-card', (req, res, next) => {
 });
 
 app.post('/api/auth/handleCardEvents', (req, res, next) => {
-  const { userId } = req.user;
+  const { userId, firstName } = req.user;
+  console.log(req.user);
   const sql = `
       select *
       from "jobList"
@@ -178,16 +181,19 @@ app.post('/api/auth/handleCardEvents', (req, res, next) => {
     .then(result => {
       const [user] = result.rows;
       if (!user) {
-        throw new ClientError(401, 'invalid login');
+        console.log('1st throw');
+        const payload = { userId, firstName };
+        res.json({ user: payload });
+      } else {
+        const { firstName } = user;
+        const dataArray = result.rows.slice().map(item => {
+          delete item.password;
+          return item;
+        });
+        const payload = { userId, firstName, dataArray };
+        // const token = jwt.sign(payload, process.env.TOKEN_SECRET);
+        res.json({ user: payload });
       }
-      const { firstName } = user;
-      const dataArray = result.rows.slice().map(item => {
-        delete item.password;
-        return item;
-      });
-      const payload = { userId, firstName, dataArray };
-      // const token = jwt.sign(payload, process.env.TOKEN_SECRET);
-      res.json({ user: payload });
     })
     .catch(err => next(err));
 });
