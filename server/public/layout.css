@@ -95,14 +95,19 @@ body {
 
 .navbar {
   width: 100vw;
+  background-color: rgba(11, 9, 37, 0.89);
 }
 
 #root {
   display: flex;
+  min-height: 100vh;
   flex-direction: column;
-  justify-content: center;
+  justify-content: start;
   align-items: center;
-  background-color: rgb(203, 234, 254);
+  background-attachment: fixed;
+
+  /* background-color: rgb(203, 234, 254); */
+  background-image: linear-gradient(to bottom, rgb(203, 234, 254), rgba(11, 9, 37, 0.89));
 }
 
 .bottom-half-card {

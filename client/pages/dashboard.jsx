@@ -118,7 +118,7 @@ export default class Dashboard extends React.Component {
     return (
       <>
       {popCard}
-      <Navbar bg="primary" variant="dark" className='navbar'>
+      <Navbar bg="" variant="dark" className='navbar'>
         <Container className="dashboard-container">
           <Navbar.Brand href="#home">Welcome back, {user.firstName}!</Navbar.Brand>
           <Nav className="me-auto">
