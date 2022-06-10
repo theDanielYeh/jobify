@@ -3,6 +3,7 @@ import { Navbar, Container, Nav, Card, Button } from 'react-bootstrap';
 import AppContext from '../lib/app-context';
 import NewCard from '../components/newcard';
 import EditCard from '../components/editcard';
+import ConfirmDelete from '../components/deletemodal';
 
 export default class Dashboard extends React.Component {
   constructor(props) {
@@ -10,11 +11,14 @@ export default class Dashboard extends React.Component {
     this.state = {
       newCard: false,
       editCard: false,
-      savedJobData: ''
+      savedJobData: '',
+      deleter: false,
+      deleteId: ''
     };
     this.handleNewCard = this.handleNewCard.bind(this);
     this.handleEditCard = this.handleEditCard.bind(this);
     this.toggleEditCard = this.toggleEditCard.bind(this);
+    this.toggleDelete = this.toggleDelete.bind(this);
   }
 
   handleNewCard() {
@@ -26,6 +30,13 @@ export default class Dashboard extends React.Component {
   toggleEditCard() {
     this.setState({
       editCard: !this.state.editCard
+    });
+  }
+
+  toggleDelete(jobId) {
+    this.setState({
+      deleter: !this.state.deleter,
+      deleteId: jobId
     });
   }
 
@@ -58,13 +69,16 @@ export default class Dashboard extends React.Component {
   }
 
   render() {
+    // const deletePopup = this.state.deleter === true ? <ConfirmDelete handleMe={this.toggleDelete} /> : null;
     const { user, handleSignOut } = this.context;
     console.log('dashboard dataArray: ', user.dataArray);
     const popCard = this.state.newCard
       ? <NewCard handleMe={this.handleNewCard}/>
       : this.state.editCard
         ? <EditCard handleMe={this.toggleEditCard} dataToLoadJob={this.state.savedJobData}/>
-        : null;
+        : this.state.deleter
+          ? <ConfirmDelete handleMe={this.toggleDelete} dataToDelete={this.state.deleteId} />
+          : null;
     return (
       <>
       {popCard}
@@ -106,6 +120,7 @@ export default class Dashboard extends React.Component {
                     <p className={statusColor}>{item.status}</p>
                     <p>Applied: {item.dateApplied.substring(0, 10)}</p>
                   </div>
+                <i className="fa-solid fa-ban fa-lg" onClick={() => this.toggleDelete(item.jobId)}></i>
                 </div>
               </div>
           );

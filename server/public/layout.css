@@ -122,3 +122,12 @@ body {
   right: 20px;
   top: 20px;
 }
+
+.fa-ban {
+  display: flex;
+  cursor: pointer;
+  position: absolute;
+  right: 20px;
+  bottom: 30px;
+  color: rgb(242, 129, 129);
+}

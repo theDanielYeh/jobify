@@ -78,14 +78,12 @@ export default class EditCard extends React.Component {
 
     // const handleClose = () => setShow(false);
     // const handleShow = () => setShow(true);
+
     const toggle = this.props.handleMe;
     const infoLoader = this.props.dataToLoadJob;
     const presetDate = infoLoader.dateApplied.substring(0, 10);
     return (
       <>
-        {/* <Button variant="primary" onClick={handleShow}>
-          Launch static backdrop modal
-        </Button> */}
         <Modal
           show={true}
           onHide={toggle}

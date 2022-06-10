@@ -192,6 +192,26 @@ app.post('/api/auth/handleCardEvents', (req, res, next) => {
     .catch(err => next(err));
 });
 
+app.delete('/api/auth/delete-card/:deleteJobId', (req, res, next) => {
+  console.log('hello???');
+  const deleteJobId = Number(req.params.deleteJobId);
+  console.log('app.delete jobId: ', deleteJobId);
+  const sql = `
+    delete from "jobList"
+     where "jobId" = $1
+     returning *
+  `;
+  const params = [deleteJobId];
+  db.query(sql, params)
+    .then(result => {
+      if (!result.rows) {
+        throw new ClientError(404, 'cannot find jobId to delete');
+      }
+      res.sendStatus(204);
+    })
+    .catch(err => next(err));
+});
+
 // below code provided
 
 app.use(errorMiddleware);
