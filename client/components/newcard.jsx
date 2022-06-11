@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Button, Modal, Form } from 'react-bootstrap';
 import AppContext from '../lib/app-context';
 
@@ -35,28 +35,18 @@ export default class NewCard extends React.Component {
       },
       body: JSON.stringify(this.state)
     };
-
     fetch('/api/auth/new-card', req)
       .then(res => res.json())
       .then(result => {
-        console.log('newCard handleSubmit fetch returned.');
         const { handleCardEvents } = this.context;
         handleCardEvents();
-      }
-      );
+      });
   }
 
   render() {
-    // const [show, setShow] = useState(false);
-
-    // const handleClose = () => setShow(false);
-    // const handleShow = () => setShow(true);
     const toggle = this.props.handleMe;
     return (
       <>
-        {/* <Button variant="primary" onClick={handleShow}>
-          Launch static backdrop modal
-        </Button> */}
         <Modal
           show={true}
           onHide={toggle}
@@ -68,7 +58,6 @@ export default class NewCard extends React.Component {
             <Modal.Title>New Applied Job</Modal.Title>
           </Modal.Header>
           <Modal.Body>
-
               <Form.Group className="mb-3" controlId="formBasicEmail">
                 <Form.Label>Company Name</Form.Label>
                 <Form.Control
@@ -143,7 +132,6 @@ export default class NewCard extends React.Component {
                   onChange={this.handleChange}
                 />
               </Form.Group>
-
           </Modal.Body>
           <Modal.Footer>
             <Button variant="secondary" onClick={toggle}>

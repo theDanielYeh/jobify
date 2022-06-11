@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Button, Modal, Form } from 'react-bootstrap';
 import AppContext from '../lib/app-context';
 
@@ -30,14 +30,9 @@ export default class EditCard extends React.Component {
 
   }
 
-  componentDidUpdate() {
-    console.log(this.state);
-  }
-
   handleChange(event) {
     const name = event.target.name;
     const value = event.target.value;
-
     this.setState({ [name]: value });
   }
 
@@ -57,35 +52,17 @@ export default class EditCard extends React.Component {
     fetch('/api/auth/edit-card', req)
       .then(res => res.json())
       .then(result => {
-        console.log('newCard handleSubmit fetch returned.');
         const { handleCardEvents } = this.context;
         handleCardEvents();
-        // if (action === 'sign-up') {
-        //   window.location.hash = 'sign-in';
-        // } else if (result.user && result.token) {
-        //   this.props.onSignIn(result);
-        // }
-        // if (result.user && result.token) {
-        //   const { handleSignIn } = this.context;
-        //   handleSignIn(result);
-      }
-      // }
-      );
+      });
   }
 
   render() {
-    // const [show, setShow] = useState(false);
-
-    // const handleClose = () => setShow(false);
-    // const handleShow = () => setShow(true);
     const toggle = this.props.handleMe;
     const infoLoader = this.props.dataToLoadJob;
     const presetDate = infoLoader.dateApplied.substring(0, 10);
     return (
       <>
-        {/* <Button variant="primary" onClick={handleShow}>
-          Launch static backdrop modal
-        </Button> */}
         <Modal
           show={true}
           onHide={toggle}
@@ -97,7 +74,6 @@ export default class EditCard extends React.Component {
               <Modal.Title>Edit Existing Job</Modal.Title>
             </Modal.Header>
             <Modal.Body>
-
               <Form.Group className="mb-3" controlId="formBasicEmail">
                 <Form.Label>Company Name</Form.Label>
                 <Form.Control
@@ -179,7 +155,6 @@ export default class EditCard extends React.Component {
                   onChange={this.handleChange}
                 />
               </Form.Group>
-
             </Modal.Body>
             <Modal.Footer>
               <Button variant="secondary" onClick={toggle}>

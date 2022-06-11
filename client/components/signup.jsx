@@ -53,12 +53,6 @@ export default class SignUp extends React.Component {
       fetch('/api/auth/sign-up', req)
         .then(res => res.json())
         .then(result => {
-          console.log('signed up, returning to login page');
-          // if (action === 'sign-up') {
-          //   window.location.hash = 'sign-in';
-          // } else if (result.user && result.token) {
-          //   this.props.onSignIn(result);
-          // }
           if (result.user && result.token) {
             const { handleSignIn } = this.context;
             handleSignIn(result);
@@ -97,20 +91,48 @@ export default class SignUp extends React.Component {
           </label>
           <label htmlFor="lastName">
             Last Name
-            <input required type="name" name="lastName" id="lastName" onChange={this.handleLastName} value={this.state.lastName} placeholder="Enter your last name" />
+            <input
+              required
+              type="name"
+              name="lastName"
+              id="lastName"
+              onChange={this.handleLastName}
+              value={this.state.lastName}
+              placeholder="Enter your last name" />
           </label>
           <label htmlFor="email">
             Email
-            <input required type="email" name="email" id="email" onChange={this.handleEmailChange} value={this.state.email} placeholder="Enter your email"/>
+            <input
+              required
+              type="email"
+              name="email"
+              id="email"
+              onChange={this.handleEmailChange}
+              value={this.state.email}
+              placeholder="Enter your email"/>
           </label>
           <label htmlFor="password">
             Password
-            <input required type="password" name="password" id='password' onChange={this.handlePasswordChange} value={this.state.password} placeholder="Password" />
+            <input
+              required
+              type="password"
+              name="password"
+              id='password'
+              onChange={this.handlePasswordChange}
+              value={this.state.password}
+              placeholder="Password" />
           </label>
           <p className="red-warning">{errorMsg}</p>
           <label htmlFor="confirmPassword">
             Confirm Password
-            <input required type="password" name="comfirmPassword" id='confirmPassword' onChange={this.handleConfirmPasswordChange} value={this.state.confirmPassword} placeholder="Password" />
+            <input
+              required
+              type="password"
+              name="comfirmPassword"
+              id='confirmPassword'
+              onChange={this.handleConfirmPasswordChange}
+              value={this.state.confirmPassword}
+              placeholder="Password" />
           </label>
           <p className="red-warning">{errorMsgTwo}</p>
           <Button className="signin-button" variant="primary" type="submit">

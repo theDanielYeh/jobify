@@ -60,26 +60,19 @@ p.red-warning {
   justify-content: center;
   padding: 10px;
   width: 100vw;
-  max-width: 1000px;
+  margin-top: 15px;
 }
 
 .card-wrapper {
   display: flex;
-  flex-basis: calc(100%/3);
   justify-content: center;
   align-items: center;
   padding: 5px;
+  margin-bottom: 25px;
 }
 
-.pokemon-card {
-  color: lightblue;
-
-  /* background-color: rgb(12, 110, 253); */
-  background-image: linear-gradient(to bottom, rgb(58, 58, 58), black);
+.job-card {
   padding: 1rem;
-  border: 1px solid lightgray;
-  border-radius: 1rem;
-  box-shadow: 0 8px 8px -8px rgb(0 0 0 / 50%);
   width: 300px;
   height: 300px;
   position: relative;
@@ -94,31 +87,60 @@ body {
 }
 
 .navbar {
+  display: flex;
+  position: relative;
   width: 100vw;
+  height: 50px;
+}
+
+.dashboard-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100vw;
+}
+
+.nav-brand {
+  position: absolute;
+  left: 5vw;
+}
+
+.nav-welcome {
+  position: absolute;
+  left: 45vw;
+}
+
+.me-auto {
+  position: absolute;
+  right: 5vw;
 }
 
 #root {
   display: flex;
+  min-height: 100vh;
   flex-direction: column;
-  justify-content: center;
+  justify-content: start;
   align-items: center;
-  background-color: rgb(203, 234, 254);
 }
 
 .bottom-half-card {
   display: flex;
   position: absolute;
   bottom: 5px;
-
-  /* height: 70%; */
   flex-direction: column;
   justify-content: end;
 }
 
 .fa-ellipsis-vertical {
-  cursor: pointer;
   display: flex;
   position: absolute;
   right: 20px;
   top: 20px;
+}
+
+.fa-ban {
+  display: flex;
+  position: absolute;
+  right: 20px;
+  bottom: 30px;
 }
