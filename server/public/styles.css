@@ -14,3 +14,29 @@ p.red-warning {
 .gray-color {
   color: lightgray;
 }
+
+.job-card {
+  color: lightblue;
+  background-image: linear-gradient(to bottom, rgb(58, 58, 58), black);
+  border: 1px solid lightgray;
+  border-radius: 1rem;
+  box-shadow: 0 8px 8px -8px rgb(0 0 0 / 50%);
+}
+
+.navbar {
+  background-color: rgba(11, 9, 37, 0.79);
+}
+
+#root {
+  background-attachment: fixed;
+  background-image: linear-gradient(to bottom, rgb(203, 234, 254), rgba(11, 9, 37, 0.89));
+}
+
+.fa-ellipsis-vertical {
+  cursor: pointer;
+}
+
+.fa-ban {
+  cursor: pointer;
+  color: rgb(242, 129, 129);
+}

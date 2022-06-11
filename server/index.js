@@ -44,21 +44,15 @@ app.post('/api/auth/sign-up', (req, res, next) => {
       return db.query(sql, params);
     })
     .then(result => {
-      console.log('index.js Line 41: ', result.rows);
-      // const [user] = result.rows;
-      // res.status(201).json(user);
-
       const { userId, email, firstName } = result.rows[0];
       const payload = { userId, email, firstName };
       const token = jwt.sign(payload, process.env.TOKEN_SECRET);
       res.status(201).json({ token, user: payload });
-      console.log('acct created, payload and token created');
     })
     .catch(err => next(err));
 });
 
 app.post('/api/auth/sign-in', (req, res, next) => {
-  console.log('it is making its way to sign in backend');
   const { email, password } = req.body;
   if (!email || !password) {
     throw new ClientError(401, 'invalid login');
@@ -66,14 +60,11 @@ app.post('/api/auth/sign-in', (req, res, next) => {
   const sql = `
     select *
       from "users"
-
       where "email" = $1
-
   `;
   const params = [email];
   db.query(sql, params)
     .then(result => {
-      console.log(result.rows);
       const [user] = result.rows;
       if (!user) {
         throw new ClientError(401, 'invalid login');
@@ -81,19 +72,13 @@ app.post('/api/auth/sign-in', (req, res, next) => {
       const { userId, firstName } = user;
       return argon2
         .verify(user.password, password)
-        // first password arg is hashed in db
         .then(isMatching => {
           if (!isMatching) {
             throw new ClientError(401, 'invalid login');
           }
-          // const dataArray = result.rows.slice().map(item => {
-          //   delete item.password;
-          //   return item;
-          // });
           const payload = { userId, firstName };
           const token = jwt.sign(payload, process.env.TOKEN_SECRET);
           res.json({ token, user: payload });
-          console.log('match found, payload and token created');
         });
     })
     .catch(err => next(err));
@@ -102,7 +87,6 @@ app.post('/api/auth/sign-in', (req, res, next) => {
 app.use(authorizationMiddleware);
 
 app.post('/api/auth/new-card', (req, res, next) => {
-  console.log('newcard userid: ', req.user.userId);
   const { newCompany, newPosition, newDate, newStatus, newNotes } = req.body;
   const sql = `
     insert into "jobList" ("userId", "company", "position", "dateApplied", "status", "notes")
@@ -131,8 +115,6 @@ app.get('/api/auth/saved-card/:searchJobId', (req, res, next) => {
   const params = [searchJobId];
   db.query(sql, params)
     .then(result => {
-      // const [jobId] = result.rows;
-      console.log(result.rows[0]);
       if (!result.rows) {
         throw new ClientError(401, 'jobId not returned, job not saved');
       }
@@ -156,8 +138,6 @@ app.post('/api/auth/edit-card', (req, res, next) => {
   const params = [savedJobId, newCompany, newPosition, newDate, newStatus, newNotes];
   db.query(sql, params)
     .then(result => {
-      // const [jobId] = result.rows;
-      console.log(result.rows);
       if (!result.rows) {
         throw new ClientError(401, 'jobId not returned, job not saved');
       }
@@ -168,7 +148,6 @@ app.post('/api/auth/edit-card', (req, res, next) => {
 
 app.post('/api/auth/handleCardEvents', (req, res, next) => {
   const { userId, firstName } = req.user;
-  console.log(req.user);
   const sql = `
       select *
       from "jobList"
@@ -181,7 +160,6 @@ app.post('/api/auth/handleCardEvents', (req, res, next) => {
     .then(result => {
       const [user] = result.rows;
       if (!user) {
-        console.log('1st throw');
         const payload = { userId, firstName };
         res.json({ user: payload });
       } else {
@@ -191,7 +169,6 @@ app.post('/api/auth/handleCardEvents', (req, res, next) => {
           return item;
         });
         const payload = { userId, firstName, dataArray };
-        // const token = jwt.sign(payload, process.env.TOKEN_SECRET);
         res.json({ user: payload });
       }
     })
@@ -199,9 +176,7 @@ app.post('/api/auth/handleCardEvents', (req, res, next) => {
 });
 
 app.delete('/api/auth/delete-card/:deleteJobId', (req, res, next) => {
-  console.log('hello???');
   const deleteJobId = Number(req.params.deleteJobId);
-  console.log('app.delete jobId: ', deleteJobId);
   const sql = `
     delete from "jobList"
      where "jobId" = $1

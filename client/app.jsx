@@ -35,7 +35,6 @@ export default class App extends React.Component {
     const { user, token } = result;
     window.localStorage.setItem('react-context-jwt', token);
     this.setState({ user });
-    console.log('handleSignIn user data: ', user);
   }
 
   handleCardEvents() {
@@ -52,7 +51,6 @@ export default class App extends React.Component {
       .then(result => {
         const { user } = result;
         this.setState({ user });
-        console.log('handleCardEvents user data: ', user);
       }
       );
   }

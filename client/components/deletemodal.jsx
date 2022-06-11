@@ -23,7 +23,6 @@ export default class ConfirmDelete extends React.Component {
 
     fetch(`/api/auth/delete-card/${deleteId}`, req)
       .then(result => {
-        console.log('deleteModal handleSubmit fetch returned.');
         const { handleCardEvents } = this.context;
         handleCardEvents();
       });
@@ -45,7 +44,7 @@ export default class ConfirmDelete extends React.Component {
               <Modal.Title>Delete Card Confirmation</Modal.Title>
             </Modal.Header>
             <Modal.Body>
-            <h3>Are you sure you want to delete this card?</h3>
+            <h6>Are you sure you want to delete this card?</h6>
             </Modal.Body>
             <Modal.Footer className="modal-footer">
               <Button variant="secondary" onClick={toggle}>

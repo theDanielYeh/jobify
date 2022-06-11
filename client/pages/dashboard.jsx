@@ -1,5 +1,5 @@
 import React from 'react';
-import { Navbar, Container, Nav, Card, Button } from 'react-bootstrap';
+import { Navbar, Container, Nav } from 'react-bootstrap';
 import AppContext from '../lib/app-context';
 import NewCard from '../components/newcard';
 import EditCard from '../components/editcard';
@@ -59,24 +59,12 @@ export default class Dashboard extends React.Component {
         this.setState({
           savedJobData: result.payload
         });
-        console.log('handleEditCard fetch returned.');
         this.toggleEditCard();
-        // if (action === 'sign-up') {
-        //   window.location.hash = 'sign-in';
-        // } else if (result.user && result.token) {
-        //   this.props.onSignIn(result);
-        // }
-        // if (result.user && result.token) {
-        //   const { handleSignIn } = this.context;
-        //   handleSignIn(result);
-      }
-      );
+      });
   }
 
   render() {
-    // const deletePopup = this.state.deleter === true ? <ConfirmDelete handleMe={this.toggleDelete} /> : null;
     const { user, handleSignOut } = this.context;
-    console.log('dashboard dataArray: ', user.dataArray);
     const popCard = this.state.newCard
       ? <NewCard handleMe={this.handleNewCard}/>
       : this.state.editCard
@@ -92,28 +80,27 @@ export default class Dashboard extends React.Component {
             ? 'green-color'
             : 'gray-color';
         return (
-            <div key={item.jobId} className="card-wrapper">
-              <div className="pokemon-card">
-                <div className="top-half-card">
-                  <h3>{item.company}</h3>
-                  <h3><em>{item.position}</em></h3>
-                  <div className="" onClick={() => this.handleEditCard(item.jobId)}>
-                    <i className="fa-solid fa-ellipsis-vertical" ></i>
+                <div key={item.jobId} className="card-wrapper">
+                  <div className="job-card">
+                    <div className="top-half-card">
+                      <h3>{item.company}</h3>
+                      <h3><em>{item.position}</em></h3>
+                      <div className="" onClick={() => this.handleEditCard(item.jobId)}>
+                        <i className="fa-solid fa-ellipsis-vertical" ></i>
+                      </div>
+                    </div>
+                    <div className="middle-half-card">
+                      <h6>{item.notes}</h6>
+                    </div>
+                    <div className="bottom-half-card">
+                      <p className={statusColor}>{item.status}</p>
+                      <p>Applied: {item.dateApplied.substring(0, 10)}</p>
+                    </div>
+                    <i className="fa-solid fa-ban fa-lg" onClick={() => this.toggleDelete(item.jobId)}></i>
                   </div>
                 </div>
-                <div className="middle-half-card">
-                  <h6>{item.notes}</h6>
-                </div>
-                <div className="bottom-half-card">
-                  <p className={statusColor}>{item.status}</p>
-                  <p>Applied: {item.dateApplied.substring(0, 10)}</p>
-                </div>
-                <i className="fa-solid fa-ban fa-lg" onClick={() => this.toggleDelete(item.jobId)}></i>
-              </div>
-            </div>
         );
       })
-
       : null;
     return (
       <>
@@ -130,7 +117,6 @@ export default class Dashboard extends React.Component {
             <Nav.Link href="#about">About</Nav.Link>
             <Nav.Link href="#about" onClick={handleSignOut}>Sign out</Nav.Link>
           </Nav>
-
         </Container>
       </Navbar>
       <div className="card-deck">
