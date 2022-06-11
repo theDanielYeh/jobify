@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Button, Modal, Form } from 'react-bootstrap';
 import AppContext from '../lib/app-context';
 
@@ -13,7 +13,6 @@ export default class ConfirmDelete extends React.Component {
     const toggle = this.props.handleMe;
     toggle();
     const deleteId = this.props.dataToDelete;
-    console.log('deleteModal deleterId: ', deleteId);
     const req = {
       method: 'DELETE',
       headers: {
@@ -27,17 +26,7 @@ export default class ConfirmDelete extends React.Component {
         console.log('deleteModal handleSubmit fetch returned.');
         const { handleCardEvents } = this.context;
         handleCardEvents();
-        // if (action === 'sign-up') {
-        //   window.location.hash = 'sign-in';
-        // } else if (result.user && result.token) {
-        //   this.props.onSignIn(result);
-        // }
-        // if (result.user && result.token) {
-        //   const { handleSignIn } = this.context;
-        //   handleSignIn(result);
-      }
-        // }
-      );
+      });
   }
 
   render() {

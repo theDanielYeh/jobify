@@ -36,12 +36,6 @@ export default class LoginPage extends React.Component {
       fetch('/api/auth/sign-in', req)
         .then(res => res.json())
         .then(result => {
-          // hash-routing wil fall below:
-          // if (action === 'sign-up') {
-          //   window.location.hash = 'sign-in';
-          // } else if (result.user && result.token) {
-          //   this.props.onSignIn(result);
-          // }
           if (result.user && result.token) {
             const { handleSignIn } = this.context;
             handleSignIn(result);
@@ -59,11 +53,25 @@ export default class LoginPage extends React.Component {
           <p className='welcome-p'>Welcome back! Please enter your details.</p>
           <label htmlFor="email">
             Email
-            <input required type="email" name="email" id="email" onChange={this.handleEmailChange} value={this.state.email} placeholder="Enter your email"/>
+            <input
+              required
+              type="email"
+              name="email"
+              id="email"
+              onChange={this.handleEmailChange}
+              value={this.state.email}
+              placeholder="Enter your email"/>
           </label>
           <label htmlFor="password">
             Password
-            <input required type="password" name="password" id='password' onChange={this.handlePasswordChange} value={this.state.password} placeholder="Password" />
+            <input
+              required
+              type="password"
+              name="password"
+              id='password'
+              onChange={this.handlePasswordChange}
+              value={this.state.password}
+              placeholder="Password" />
           </label>
           <Button className="signin-button" variant="primary" type="submit">
             Sign in
