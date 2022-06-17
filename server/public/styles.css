@@ -2,8 +2,19 @@ p.red-warning,
 .red-warning-two {
   font-size: 14px;
   color: red;
+}
 
-  /* color: rgb(177, 0, 0); */
+.loginform-a {
+  color: blue;
+}
+
+.demo-p {
+  color: rgba(255, 255, 255, 0.789);
+  border: solid 1px;
+}
+
+.demo-p:hover {
+  cursor: help;
 }
 
 .orange-color {

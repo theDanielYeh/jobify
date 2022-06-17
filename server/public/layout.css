@@ -43,6 +43,11 @@ label {
   text-align: center;
 }
 
+.demo-p {
+  margin-top: 100px;
+  text-align: center;
+}
+
 .loginform-a {
   margin-left: 5px;
 }
