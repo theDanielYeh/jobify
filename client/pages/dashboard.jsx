@@ -105,18 +105,18 @@ export default class Dashboard extends React.Component {
     return (
       <>
       {popCard}
-      <Navbar bg="" variant="dark" className='navbar' expand='lg'>
+      <Navbar bg="" variant="dark" className='navbar' fixed="top">
         <Container className="dashboard-container">
-          <Navbar.Brand href="#home" className='nav-brand'><em>Jobify</em></Navbar.Brand>
-          <Navbar.Brand href="#home" className='nav-welcome'>Welcome back, {user.firstName}!</Navbar.Brand>
-          <Navbar.Collapse id="basic-navbar-nav">
+          <Navbar.Brand href="#" className='nav-brand'><em>Jobify</em></Navbar.Brand>
+          <Navbar.Brand href="#" className='nav-welcome'>Welcome back, {user.firstName}!</Navbar.Brand>
+          <Navbar.Collapse id="nav-bar-scroll">
             <Nav className="me-auto">
-              <Nav.Link href="#dashboard">Dashboard</Nav.Link>
-              <Nav.Link href="" onClick={this.handleNewCard}>
+              {/* <Nav.Link href="#">Dashboard</Nav.Link> */}
+              <Nav.Link href="#" onClick={this.handleNewCard}>
                 <i className="fa-solid fa-square-plus fa-2xl"></i>
               </Nav.Link>
-              <Nav.Link href="#about">About</Nav.Link>
-              <Nav.Link href="#about" onClick={handleSignOut}>Sign out</Nav.Link>
+              {/* <Nav.Link href="#">About</Nav.Link> */}
+              <Nav.Link href="#" onClick={handleSignOut}>Sign out</Nav.Link>
             </Nav>
           </Navbar.Collapse>
         </Container>
