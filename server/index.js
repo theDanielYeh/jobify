@@ -32,22 +32,39 @@ app.post('/api/auth/sign-up', (req, res, next) => {
   if (!firstName || !lastName || !email || !password) {
     throw new ClientError(400, 'all fields are required');
   }
-  argon2
-    .hash(password)
-    .then(hashedPassword => {
-      const sql = `
-        insert into "users" ("firstName", "lastName", "email", "password")
-        values ($1, $2, $3, $4)
-        returning "userId", "email", "createdAt", "firstName"
-      `;
-      const params = [firstName, lastName, email, hashedPassword];
-      return db.query(sql, params);
-    })
+
+  const sql = `
+    select *
+      from "users"
+      where "email" = $1
+  `;
+  const params = [email];
+  db.query(sql, params)
     .then(result => {
-      const { userId, email, firstName } = result.rows[0];
-      const payload = { userId, email, firstName };
-      const token = jwt.sign(payload, process.env.TOKEN_SECRET);
-      res.status(201).json({ token, user: payload });
+      const [user] = result.rows;
+      if (user) {
+        // throw new ClientError(400, 'email already in use');
+        res.status(400).json('');
+      } else {
+        argon2
+          .hash(password)
+          .then(hashedPassword => {
+            const sqlTwo = `
+              insert into "users" ("firstName", "lastName", "email", "password")
+              values ($1, $2, $3, $4)
+              returning "userId", "email", "createdAt", "firstName"
+            `;
+            const paramsTwo = [firstName, lastName, email, hashedPassword];
+            return db.query(sqlTwo, paramsTwo);
+          })
+          .then(result => {
+            const { userId, email, firstName } = result.rows[0];
+            const payload = { userId, email, firstName };
+            const token = jwt.sign(payload, process.env.TOKEN_SECRET);
+            res.status(201).json({ token, user: payload });
+          })
+          .catch(err => next(err));
+      }
     })
     .catch(err => next(err));
 });
