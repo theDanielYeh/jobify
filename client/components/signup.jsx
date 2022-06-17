@@ -10,7 +10,8 @@ export default class SignUp extends React.Component {
       lastName: '',
       email: '',
       password: '',
-      confirmPassword: ''
+      confirmPassword: '',
+      emailInUse: false
     };
     this.handleFirstName = this.handleFirstName.bind(this);
     this.handleLastName = this.handleLastName.bind(this);
@@ -29,7 +30,10 @@ export default class SignUp extends React.Component {
   }
 
   handleEmailChange(event) {
-    this.setState({ email: event.target.value });
+    this.setState({
+      email: event.target.value,
+      emailInUse: false
+    });
   }
 
   handlePasswordChange(event) {
@@ -53,9 +57,12 @@ export default class SignUp extends React.Component {
       fetch('/api/auth/sign-up', req)
         .then(res => res.json())
         .then(result => {
-          if (result.user && result.token) {
+          if (!result) {
+            this.setState({ emailInUse: true });
+          } else if (result.user && result.token) {
             const { handleSignIn } = this.context;
             handleSignIn(result);
+            this.setState({ emailInUse: false });
           }
         });
     }
@@ -72,6 +79,7 @@ export default class SignUp extends React.Component {
       : this.state.confirmPassword !== this.state.password
         ? 'Does not match password.'
         : '';
+    const errorMsgThree = this.state.emailInUse === true ? 'Email is already in use.' : null;
     return (
       <div className="parent-container">
         <form className="login-form" id="login-form" onSubmit={this.handleSubmit}>
@@ -111,6 +119,7 @@ export default class SignUp extends React.Component {
               value={this.state.email}
               placeholder="Enter your email"/>
           </label>
+          <p className="red-warning">{errorMsgThree}</p>
           <label htmlFor="password">
             Password
             <input

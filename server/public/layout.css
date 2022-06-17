@@ -51,6 +51,11 @@ p.red-warning {
   margin-top: -15px;
 }
 
+.red-warning-two {
+  text-align: center;
+  margin-top: 3px;
+}
+
 /* dashboard */
 
 /* list of data */
@@ -60,7 +65,7 @@ p.red-warning {
   justify-content: center;
   padding: 10px;
   width: 100vw;
-  margin-top: 15px;
+  margin-top: 70px;
 }
 
 .card-wrapper {
@@ -68,7 +73,9 @@ p.red-warning {
   justify-content: center;
   align-items: center;
   padding: 5px;
-  margin-bottom: 25px;
+  margin-bottom: 20px;
+  margin-left: 7px;
+  margin-right: 7px;
 }
 
 .job-card {
@@ -107,7 +114,11 @@ body {
 
 .nav-welcome {
   position: absolute;
-  left: 45vw;
+  left: 20vw;
+}
+
+.fa-square-plus {
+  margin-right: 20px;
 }
 
 .me-auto {
@@ -121,6 +132,21 @@ body {
   flex-direction: column;
   justify-content: start;
   align-items: center;
+}
+
+.top-half-card {
+  max-width: 95%;
+  max-height: 40%;
+  overflow-x: hidden;
+  overflow-y: auto;
+}
+
+.middle-half-card {
+  max-width: 95%;
+  max-height: 20%;
+  overflow-x: hidden;
+  overflow-y: auto;
+  margin-top: 15px;
 }
 
 .bottom-half-card {

@@ -1,6 +1,9 @@
-p.red-warning {
+p.red-warning,
+.red-warning-two {
   font-size: 14px;
   color: red;
+
+  /* color: rgb(177, 0, 0); */
 }
 
 .orange-color {
@@ -24,7 +27,29 @@ p.red-warning {
 }
 
 .navbar {
-  background-color: rgba(11, 9, 37, 0.79);
+  background-color: rgba(11, 9, 37, 0.95);
+}
+
+.nav-link {
+  color: rgba(255, 255, 255, 0.81) !important;
+  transition: 0.3s !important;
+}
+
+.nav-brand,
+.nav-welcome {
+  color: rgba(255, 255, 255, 0.81) !important;
+}
+
+.me-auto {
+  color: rgba(255, 0, 0, 0) !important;
+  border: none !important;
+}
+
+.nav-link:hover,
+.nav-brand:hover,
+.nav-welcome:hover,
+.navbar-toggler:hover {
+  color: white !important;
 }
 
 #root {
@@ -38,5 +63,10 @@ p.red-warning {
 
 .fa-ban {
   cursor: pointer;
-  color: rgb(242, 129, 129);
+  color: rgb(250, 91, 91);
+  transition: 0.3s;
+}
+
+.fa-ban:hover {
+  color: rgb(249, 68, 68);
 }
