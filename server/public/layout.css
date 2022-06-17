@@ -134,6 +134,21 @@ body {
   align-items: center;
 }
 
+.top-half-card {
+  max-width: 95%;
+  max-height: 40%;
+  overflow-x: hidden;
+  overflow-y: auto;
+}
+
+.middle-half-card {
+  max-width: 95%;
+  max-height: 20%;
+  overflow-x: hidden;
+  overflow-y: auto;
+  margin-top: 15px;
+}
+
 .bottom-half-card {
   display: flex;
   position: absolute;
