@@ -114,23 +114,23 @@ body {
 
 .nav-brand {
   position: absolute;
-  left: 5vw;
+  left: 3vw;
 }
 
 .nav-welcome {
   position: absolute;
   left: 20vw;
-  width: 400px;
-  overflow-x: hidden;
+  width: 180px;
+  overflow-x: scroll;
 }
 
 .fa-square-plus {
-  margin-right: 20px;
+  margin-right: -2px;
 }
 
 .me-auto {
   position: absolute;
-  right: 5vw;
+  right: 2vw;
 }
 
 #root {

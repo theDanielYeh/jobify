@@ -77,7 +77,7 @@ export default class SignUp extends React.Component {
     const errorMsgTwo = this.state.confirmPassword.length === 0
       ? ''
       : this.state.confirmPassword !== this.state.password
-        ? 'Does not match password.'
+        ? 'Passwords do not match.'
         : '';
     const errorMsgThree = this.state.emailInUse === true ? 'Email is already in use.' : null;
     return (

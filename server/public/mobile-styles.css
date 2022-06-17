@@ -5,7 +5,7 @@ p.red-warning,
 }
 
 .loginform-a {
-  color: blue;
+  color: rgb(63, 126, 253) !important;
 }
 
 .demo-p {
@@ -42,13 +42,18 @@ p.red-warning,
 }
 
 .nav-link {
-  color: rgba(255, 255, 255, 0.81) !important;
+  font-size: 0.9rem;
+  color: white !important;
   transition: 0.3s !important;
 }
 
 .nav-brand,
 .nav-welcome {
-  color: rgba(255, 255, 255, 0.81) !important;
+  color: white !important;
+}
+
+.nav-welcome {
+  font-size: 0.9rem !important;
 }
 
 .me-auto {
