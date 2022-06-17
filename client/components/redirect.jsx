@@ -1,3 +1,5 @@
+// future development
+
 export default function Redirect(props) {
   const url = new URL(window.location);
   if (props.to === '') {

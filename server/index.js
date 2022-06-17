@@ -43,7 +43,7 @@ app.post('/api/auth/sign-up', (req, res, next) => {
     .then(result => {
       const [user] = result.rows;
       if (user) {
-        // throw new ClientError(400, 'email already in use');
+        // future dev: throw new ClientError(400, 'email already in use');
         res.status(400).json('');
       } else {
         argon2

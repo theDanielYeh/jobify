@@ -1,7 +1,6 @@
 import React from 'react';
 import Home from './pages/home';
 import Dashboard from './pages/dashboard';
-
 import { parseRoute } from './lib';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import decodeToken from './lib/decode-token';
