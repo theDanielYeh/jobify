@@ -7,7 +7,8 @@ export default class LoginPage extends React.Component {
     super(props);
     this.state = {
       email: '',
-      password: ''
+      password: '',
+      loginError: false
     };
     this.handleEmailChange = this.handleEmailChange.bind(this);
     this.handlePasswordChange = this.handlePasswordChange.bind(this);
@@ -39,12 +40,16 @@ export default class LoginPage extends React.Component {
           if (result.user && result.token) {
             const { handleSignIn } = this.context;
             handleSignIn(result);
+            this.setState({ loginError: false });
+          } else {
+            this.setState({ loginError: true });
           }
         });
     }
   }
 
   render() {
+    const errorMsg = this.state.loginError === true ? 'Invalid login credentials. Please try again.' : null;
     return (
       <div className="parent-container">
         <form action="" className="login-form" id="login-form" onSubmit={this.handleSubmit}>
@@ -76,6 +81,7 @@ export default class LoginPage extends React.Component {
           <Button className="signin-button" variant="primary" type="submit">
             Sign in
           </Button>
+          <p className="red-warning-two">{errorMsg}</p>
         </form>
       </div>
     );

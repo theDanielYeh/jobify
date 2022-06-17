@@ -51,6 +51,11 @@ p.red-warning {
   margin-top: -15px;
 }
 
+.red-warning-two {
+  text-align: center;
+  margin-top: 3px;
+}
+
 /* dashboard */
 
 /* list of data */

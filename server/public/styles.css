@@ -1,6 +1,9 @@
-p.red-warning {
+p.red-warning,
+.red-warning-two {
   font-size: 14px;
   color: red;
+
+  /* color: rgb(177, 0, 0); */
 }
 
 .orange-color {
@@ -27,6 +30,15 @@ p.red-warning {
   background-color: rgba(11, 9, 37, 0.79);
 }
 
+.nav-link {
+  color: rgba(255, 255, 255, 0.81) !important;
+  transition: 0.3s !important;
+}
+
+.nav-link:hover {
+  color: white !important;
+}
+
 #root {
   background-attachment: fixed;
   background-image: linear-gradient(to bottom, rgb(203, 234, 254), rgba(11, 9, 37, 0.89));
@@ -38,5 +50,10 @@ p.red-warning {
 
 .fa-ban {
   cursor: pointer;
-  color: rgb(242, 129, 129);
+  color: rgb(250, 91, 91);
+  transition: 0.3s;
+}
+
+.fa-ban:hover {
+  color: rgb(249, 68, 68);
 }
