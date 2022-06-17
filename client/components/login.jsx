@@ -20,7 +20,10 @@ export default class LoginPage extends React.Component {
   }
 
   handlePasswordChange(event) {
-    this.setState({ password: event.target.value });
+    this.setState({
+      password: event.target.value,
+      loginError: false
+    });
   }
 
   handleSubmit(event) {
