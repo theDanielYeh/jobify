@@ -8,7 +8,8 @@ export default class LoginPage extends React.Component {
     this.state = {
       email: '',
       password: '',
-      loginError: false
+      loginError: false,
+      load: false
     };
     this.handleEmailChange = this.handleEmailChange.bind(this);
     this.handlePasswordChange = this.handlePasswordChange.bind(this);
@@ -37,9 +38,11 @@ export default class LoginPage extends React.Component {
     };
 
     if (this.state.password.length > 0) {
+      this.setState({ load: true });
       fetch('/api/auth/sign-in', req)
         .then(res => res.json())
         .then(result => {
+          this.setState({ load: false });
           if (result.user && result.token) {
             const { handleSignIn } = this.context;
             handleSignIn(result);
@@ -52,9 +55,11 @@ export default class LoginPage extends React.Component {
   }
 
   render() {
+    const loaderStatus = this.state.load ? 'loader' : 'hidden';
     const errorMsg = this.state.loginError === true ? 'Invalid login credentials. Please try again.' : null;
     return (
       <div className="parent-container">
+        <span id="loader" className={loaderStatus}></span>
         <form action="" className="login-form" id="login-form" onSubmit={this.handleSubmit}>
           <h1>Jobify</h1>
           <h2><i>Log in to your account</i></h2>

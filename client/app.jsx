@@ -13,7 +13,8 @@ export default class App extends React.Component {
     this.state = {
       user: null,
       isAuthorizing: true,
-      route: parseRoute(window.location.hash)
+      route: parseRoute(window.location.hash),
+      load: false
     };
     this.handleSignIn = this.handleSignIn.bind(this);
     this.handleSignOut = this.handleSignOut.bind(this);
@@ -34,6 +35,7 @@ export default class App extends React.Component {
     const { user, token } = result;
     window.localStorage.setItem('react-context-jwt', token);
     this.setState({ user });
+    this.setState({ load: true });
   }
 
   handleCardEvents() {
@@ -50,6 +52,7 @@ export default class App extends React.Component {
       .then(result => {
         const { user } = result;
         this.setState({ user });
+        this.setState({ load: false });
       }
       );
   }
@@ -60,12 +63,14 @@ export default class App extends React.Component {
   }
 
   render() {
+    const loaderStatus = this.state.load ? 'loader' : 'hidden';
     const { user, route } = this.state;
     const { handleSignIn, handleSignOut, handleCardEvents } = this;
     const contextValue = { user, route, handleSignIn, handleSignOut, handleCardEvents };
     const pageToRender = !user ? <Home /> : <Dashboard />;
     return (
       <AppContext.Provider value={contextValue}>
+        <span id="loader" className={loaderStatus}></span>
         {pageToRender}
       </AppContext.Provider>
 

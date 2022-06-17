@@ -11,7 +11,8 @@ export default class SignUp extends React.Component {
       email: '',
       password: '',
       confirmPassword: '',
-      emailInUse: false
+      emailInUse: false,
+      load: false
     };
     this.handleFirstName = this.handleFirstName.bind(this);
     this.handleLastName = this.handleLastName.bind(this);
@@ -54,9 +55,11 @@ export default class SignUp extends React.Component {
       body: JSON.stringify(this.state)
     };
     if (this.state.password.length > 7 && this.state.confirmPassword === this.state.password) {
+      this.setState({ load: true });
       fetch('/api/auth/sign-up', req)
         .then(res => res.json())
         .then(result => {
+          this.setState({ load: false });
           if (!result) {
             this.setState({ emailInUse: true });
           } else if (result.user && result.token) {
@@ -69,6 +72,7 @@ export default class SignUp extends React.Component {
   }
 
   render() {
+    const loaderStatus = this.state.load ? 'loader' : 'hidden';
     const errorMsg = this.state.password.length === 0
       ? ''
       : this.state.password.length < 8
@@ -82,6 +86,7 @@ export default class SignUp extends React.Component {
     const errorMsgThree = this.state.emailInUse === true ? 'Email is already in use.' : null;
     return (
       <div className="parent-container">
+        <span id="loader" className={loaderStatus}></span>
         <form className="login-form" id="login-form" onSubmit={this.handleSubmit}>
           <h1>Jobify</h1>
           <h2><i>Create an account</i></h2>
