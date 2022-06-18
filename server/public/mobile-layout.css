@@ -113,10 +113,9 @@ body {
 }
 
 .nav-welcome {
-  position: absolute;
-  left: 20vw;
+  margin-left: 17vw;
   width: 180px;
-  overflow-x: scroll;
+  overflow-x: hidden;
 }
 
 .fa-square-plus {

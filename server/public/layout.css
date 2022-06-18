@@ -113,8 +113,7 @@ body {
 }
 
 .nav-welcome {
-  position: absolute;
-  left: 20vw;
+  margin-left: 10vw;
   width: 400px;
   overflow-x: hidden;
 }
