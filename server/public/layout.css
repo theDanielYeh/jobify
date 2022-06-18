@@ -149,13 +149,6 @@ body {
   overflow-y: hidden;
 }
 
-/* h3,
-h6 {
-  width: 90%;
-  overflow: hidden;
-  text-overflow: ellipsis;
-} */
-
 .top-half-bottom-card {
   max-height: 40px;
   overflow-x: hidden;

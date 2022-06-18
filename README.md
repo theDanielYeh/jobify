@@ -5,32 +5,79 @@ As a soon-to-be bootcamp graduate, I will need a tool to facilitate my job hunt.
 
 ## Technologies Used
 - React.js
+- React Bootstrap
 - Webpack
-- Bootstrap 5
 - Node.js
-- MongoDB
+- PostgreSQL
 - HTML5
 - CSS3
 - Heroku
 
 ## Live Demo
-Try the application live at [https://thedanielyeh.github.io/tesla-supercharger/]
+Try the application live at [https://another-jobify-app.herokuapp.com/]
 
 ## Features
-- Users can view their current location.
-- Users can view the nearest Tesla Supercharger.
-- Users can view the route between current location and nearest Tesla Supercharger.
-- Users can view the weather condition at the nearest Tesla Supercharger.
-- Users can save the destination to favorites.
-- Teachers can delete the destination from favorites.
+- Users can create an account.
+- Users can log in to an existing account.
+- Users can create new job cards.
+- Users can view saved job cards.
+- Users can edit saved job cards.
+- Users can delete saved job cards
 
 ## Preview
-![Kapture 2022-06-16 at 13 10 49](https://user-images.githubusercontent.com/96906988/174160842-00491800-2bbb-46a3-ad82-16e6cfafe703.gif)
+
 
 ## Future Development
-- Users can view restaurants near the destination.
-- Users can review Tesla Supercharger station for safety, amenities, and tips.
+- Users can toggle list view.
+- Users can toggle big job card view to display more information.
+- Users can saved additional input fields.
 
 ## Instructions
-1. Clone the repository.
-2. Happy coding!
+1. Clone the repository
+
+  ```shell
+  git clone git@github.com:theDanielYeh/jobify.git
+  cd jobify
+  ```
+
+2. Install all dependencies with NPM
+
+  ```shell
+  npm install
+  ```
+
+3. Make a copy of the .env.example file
+
+  ```shell
+  cp .env.example .env
+  ```
+
+4. Start PostgreSQL
+
+  ```shell
+  sudo service postgresql start
+  ```
+
+5. Create a new database
+
+  ```shell
+  createdb jobify
+  ```
+
+6. Import database to PostgreSQL
+
+  ```shell
+  npm run db:import
+  ```
+
+7. Start GUI for database
+
+  ```shell
+  pgweb --db=jobify
+  ```
+
+8. Start development environment
+
+  ```shell
+  npm run dev
+  ```
