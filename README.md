@@ -22,7 +22,7 @@ Try the application live at [https://another-jobify-app.herokuapp.com/]
 - Users can create new job cards.
 - Users can view saved job cards.
 - Users can edit saved job cards.
-- Users can delete saved job cards
+- Users can delete saved job cards.
 
 ## Preview
 
@@ -31,6 +31,7 @@ Try the application live at [https://another-jobify-app.herokuapp.com/]
 - Users can toggle list view.
 - Users can toggle big job card view to display more information.
 - Users can saved additional input fields.
+- Users can sort.
 
 ## Instructions
 1. Clone the repository
@@ -46,37 +47,31 @@ Try the application live at [https://another-jobify-app.herokuapp.com/]
   npm install
   ```
 
-3. Make a copy of the .env.example file
-
-  ```shell
-  cp .env.example .env
-  ```
-
-4. Start PostgreSQL
+3. Start PostgreSQL
 
   ```shell
   sudo service postgresql start
   ```
 
-5. Create a new database
+4. Create a new database
 
   ```shell
   createdb jobify
   ```
 
-6. Import database to PostgreSQL
+5. Import database to PostgreSQL
 
   ```shell
   npm run db:import
   ```
 
-7. Start GUI for database
+6. Start GUI for database
 
   ```shell
   pgweb --db=jobify
   ```
 
-8. Start development environment
+7. Start development environment
 
   ```shell
   npm run dev
