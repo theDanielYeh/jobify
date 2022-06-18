@@ -25,6 +25,8 @@ Try the application live at [https://another-jobify-app.herokuapp.com/]
 - Users can delete saved job cards.
 
 ## Preview
+![Kapture 2022-06-17 at 22 36 31](https://user-images.githubusercontent.com/96906988/174424500-e4b527c6-fe0c-487e-86bf-6b7ff922108c.gif)
+![Kapture 2022-06-17 at 22 40 11](https://user-images.githubusercontent.com/96906988/174424583-38ab5eac-4bae-4971-854f-2a1e9d55af02.gif)
 
 
 ## Future Development
