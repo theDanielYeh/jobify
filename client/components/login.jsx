@@ -1,4 +1,5 @@
 import React from 'react';
+import { OverlayTrigger, Tooltip } from 'react-bootstrap';
 import Button from 'react-bootstrap/Button';
 import AppContext from '../lib/app-context';
 
@@ -13,6 +14,7 @@ export default class LoginPage extends React.Component {
     };
     this.handleEmailChange = this.handleEmailChange.bind(this);
     this.handlePasswordChange = this.handlePasswordChange.bind(this);
+    this.handleDemoClick = this.handleDemoClick.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
   }
 
@@ -24,6 +26,13 @@ export default class LoginPage extends React.Component {
     this.setState({
       password: event.target.value,
       loginError: false
+    });
+  }
+
+  handleDemoClick(event) {
+    this.setState({
+      email: 'demo@gmail.com',
+      password: '12345678'
     });
   }
 
@@ -57,6 +66,12 @@ export default class LoginPage extends React.Component {
   render() {
     const loaderStatus = this.state.load ? 'loader' : 'hidden';
     const errorMsg = this.state.loginError === true ? 'Invalid login credentials. Please try again.' : null;
+    const renderTooltip = props => (
+      <Tooltip id="button-tooltip" {...props}>
+        Email: demo@gmail.com
+        Password: 12345678
+      </Tooltip>
+    );
     return (
       <div className="parent-container">
         <span id="loader" className={loaderStatus}></span>
@@ -90,6 +105,13 @@ export default class LoginPage extends React.Component {
             Sign in
           </Button>
           <p className="red-warning-two">{errorMsg}</p>
+          <OverlayTrigger
+            placement="top"
+            delay={{ show: 150, hide: 300 }}
+            overlay={renderTooltip}
+          >
+            <Button className='demo-b' onClick={this.handleDemoClick}>Demo Login</Button>
+          </OverlayTrigger>
         </form>
       </div>
     );
