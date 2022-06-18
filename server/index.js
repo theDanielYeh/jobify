@@ -18,11 +18,12 @@ const db = new pg.Pool({
   }
 });
 
+app.use(express.static(publicPath));
+
 if (process.env.NODE_ENV === 'development') {
   app.use(require('./dev-middleware')(publicPath));
 }
 
-app.use(express.static(publicPath));
 const jsonMiddleware = express.json();
 app.use(jsonMiddleware);
 const authorizationMiddleware = require('./authorization-middleware');
