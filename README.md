@@ -49,31 +49,39 @@ Try the application live at [https://another-jobify-app.herokuapp.com/]
   npm install
   ```
 
-3. Start PostgreSQL
+3. Create a copy of the .env.example file
+
+  ```shell
+  cp .env.example .env
+  ```
+
+4. In the `.env` update `DATABASE_URL` string of `changeMe` to `jobify`
+
+5. Start PostgreSQL
 
   ```shell
   sudo service postgresql start
   ```
 
-4. Create a new database
+6. Create a new database
 
   ```shell
   createdb jobify
   ```
 
-5. Import database to PostgreSQL
+7. Import database to PostgreSQL
 
   ```shell
   npm run db:import
   ```
 
-6. Start GUI for database
+8. Start GUI for database
 
   ```shell
   pgweb --db=jobify
   ```
 
-7. Start development environment
+9. Start development environment
 
   ```shell
   npm run dev
