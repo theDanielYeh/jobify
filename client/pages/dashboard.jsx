@@ -83,8 +83,12 @@ export default class Dashboard extends React.Component {
                 <div key={item.jobId} className="card-wrapper">
                   <div className="job-card">
                     <div className="top-half-card">
-                      <h3>{item.company}</h3>
-                      <h3><em>{item.position}</em></h3>
+                      <div className="top-half-top-card">
+                       <h3>{item.company}</h3>
+                      </div>
+                      <div className="top-half-bottom-card">
+                        <h3><em>{item.position}</em></h3>
+                      </div>
                       <div className="" onClick={() => this.handleEditCard(item.jobId)}>
                         <i className="fa-solid fa-ellipsis-vertical" ></i>
                       </div>

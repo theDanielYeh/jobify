@@ -137,18 +137,40 @@ body {
 }
 
 .top-half-card {
+  display: flex;
+  flex-direction: column;
   max-width: 95%;
   max-height: 40%;
+}
+
+.top-half-top-card {
+  max-height: 80px;
   overflow-x: hidden;
-  overflow-y: auto;
+  overflow-y: hidden;
+}
+
+/* h3,
+h6 {
+  width: 90%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+} */
+
+.top-half-bottom-card {
+  max-height: 40px;
+  overflow-x: hidden;
+  overflow-y: hidden;
 }
 
 .middle-half-card {
+  display: flex;
+  position: absolute;
+  top: 135px;
   max-width: 95%;
-  max-height: 20%;
+  max-height: 60px;
+  text-overflow: ellipsis;
   overflow-x: hidden;
-  overflow-y: auto;
-  margin-top: 15px;
+  overflow-y: hidden;
 }
 
 .bottom-half-card {
