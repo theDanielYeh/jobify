@@ -1,4 +1,5 @@
 import React from 'react';
+import { Form } from 'react-bootstrap';
 import Button from 'react-bootstrap/Button';
 import AppContext from '../lib/app-context';
 
@@ -87,72 +88,72 @@ export default class SignUp extends React.Component {
     return (
       <div className="parent-container">
         <span id="loader" className={loaderStatus}></span>
-        <form className="login-form" id="login-form" onSubmit={this.handleSubmit}>
+        <Form onSubmit={this.handleSubmit} className='login-form'>
           <h1>Jobify</h1>
           <h2><i>Create an account</i></h2>
           <p className='welcome-p'>Welcome guest! Please enter your details.</p>
-          <label htmlFor="firstName">
-            First Name
-              <input
+          <Form.Group className='mb-3' controlId='formBasicFirstName'>
+            <Form.Label>First Name</Form.Label>
+            <Form.Control
               required
-              type="name"
-              name="firstName"
-              id="firstName"
+              type='name'
+              name='firstName'
               onChange={this.handleFirstName}
               value={this.state.firstName}
-              placeholder="Enter your first name" />
-          </label>
-          <label htmlFor="lastName">
-            Last Name
-            <input
+              placeholder='Enter your first name'
+            />
+          </Form.Group>
+          <Form.Group className='mb-3' controlId='formBasicLastName'>
+            <Form.Label>Last Name</Form.Label>
+            <Form.Control
               required
-              type="name"
-              name="lastName"
-              id="lastName"
+              type='name'
+              name='lastName'
               onChange={this.handleLastName}
               value={this.state.lastName}
-              placeholder="Enter your last name" />
-          </label>
-          <label htmlFor="email">
-            Email
-            <input
+              placeholder='Enter your last name'
+            />
+          </Form.Group>
+          <Form.Group className='mb-3' controlId='formBasicEmail'>
+            <Form.Label>Email</Form.Label>
+            <Form.Control
               required
-              type="email"
-              name="email"
-              id="email"
+              type='email'
+              name='email'
               onChange={this.handleEmailChange}
               value={this.state.email}
-              placeholder="Enter your email"/>
-          </label>
+              placeholder='Enter your email'
+            />
+          </Form.Group>
           <p className="red-warning">{errorMsgThree}</p>
-          <label htmlFor="password">
-            Password
-            <input
+          <Form.Group className='mb-3' controlId='formBasicPassword'>
+            <Form.Label>Password</Form.Label>
+            <Form.Control
               required
-              type="password"
-              name="password"
-              id='password'
+              type='password'
+              name='password'
               onChange={this.handlePasswordChange}
               value={this.state.password}
-              placeholder="Password" />
-          </label>
+              placeholder='Password'
+            />
+          </Form.Group>
           <p className="red-warning">{errorMsg}</p>
-          <label htmlFor="confirmPassword">
-            Confirm Password
-            <input
+          <Form.Group className='mb-3' controlId='formBasicConfirmPassword'>
+            <Form.Label>Confirm Password</Form.Label>
+            <Form.Control
               required
-              type="password"
-              name="comfirmPassword"
-              id='confirmPassword'
+              type='password'
+              name='confirmPassword'
               onChange={this.handleConfirmPasswordChange}
               value={this.state.confirmPassword}
-              placeholder="Password" />
-          </label>
+              placeholder='Confirm Password'
+            />
+          </Form.Group>
           <p className="red-warning">{errorMsgTwo}</p>
           <Button className="signin-button" variant="primary" type="submit">
             Get started
           </Button>
-        </form>
+        </Form>
       </div>
     );
   }
