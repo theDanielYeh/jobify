@@ -115,11 +115,9 @@ export default class Dashboard extends React.Component {
           <Navbar.Brand href="#" className='nav-welcome'>Welcome back, {user.firstName}!</Navbar.Brand>
           <Navbar.Collapse id="nav-bar-scroll">
             <Nav className="me-auto">
-              {/* <Nav.Link href="#">Dashboard</Nav.Link> */}
               <Nav.Link href="#" onClick={this.handleNewCard}>
                 <i className="fa-solid fa-square-plus fa-2xl"></i>
               </Nav.Link>
-              {/* <Nav.Link href="#">About</Nav.Link> */}
               <Nav.Link href="#" onClick={handleSignOut}>Sign out</Nav.Link>
             </Nav>
           </Navbar.Collapse>
