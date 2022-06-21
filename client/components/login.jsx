@@ -1,5 +1,5 @@
 import React from 'react';
-import { OverlayTrigger, Tooltip } from 'react-bootstrap';
+import { OverlayTrigger, Tooltip, Form } from 'react-bootstrap';
 import Button from 'react-bootstrap/Button';
 import AppContext from '../lib/app-context';
 
@@ -75,32 +75,32 @@ export default class LoginPage extends React.Component {
     return (
       <div className="parent-container">
         <span id="loader" className={loaderStatus}></span>
-        <form action="" className="login-form" id="login-form" onSubmit={this.handleSubmit}>
+        <Form onSubmit={this.handleSubmit} className='login-form' id='login-form'>
           <h1>Jobify</h1>
           <h2><i>Log in to your account</i></h2>
           <p className='welcome-p'>Welcome back! Please enter your details.</p>
-          <label htmlFor="email">
-            Email
-            <input
+          <Form.Group className='mb-3' controlId='formBasicEmail'>
+            <Form.Label>Email</Form.Label>
+            <Form.Control
               required
-              type="email"
-              name="email"
-              id="email"
+              type='email'
+              name='email'
               onChange={this.handleEmailChange}
               value={this.state.email}
-              placeholder="Enter your email"/>
-          </label>
-          <label htmlFor="password">
-            Password
-            <input
+              placeholder='Enter your email'
+              />
+          </Form.Group>
+          <Form.Group className='mb-3' controlId='formBasicPassword'>
+            <Form.Label>Password</Form.Label>
+            <Form.Control
               required
-              type="password"
-              name="password"
-              id='password'
+              type='password'
+              name='password'
               onChange={this.handlePasswordChange}
               value={this.state.password}
-              placeholder="Password" />
-          </label>
+              placeholder='Password'
+            />
+          </Form.Group>
           <Button className="signin-button" variant="primary" type="submit">
             Sign in
           </Button>
@@ -112,7 +112,7 @@ export default class LoginPage extends React.Component {
           >
             <Button className='demo-b' onClick={this.handleDemoClick}>Demo Login</Button>
           </OverlayTrigger>
-        </form>
+        </Form>
       </div>
     );
   }
