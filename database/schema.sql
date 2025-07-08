@@ -6,13 +6,17 @@ create schema "public";
 -- Below is the db designer exported code --
 
 CREATE TABLE "users" (
-	"userId" serial NOT NULL,
-	"firstName" TEXT NOT NULL,
-	"lastName" TEXT NOT NULL,
-	"email" TEXT NOT NULL,
-	"password" TEXT NOT NULL,
-	"createdAt" TIMESTAMPTZ default now() NOT NULL,
-	CONSTRAINT "users_pk" PRIMARY KEY ("userId")
+        "userId" serial NOT NULL,
+        "firstName" TEXT NOT NULL,
+        "lastName" TEXT NOT NULL,
+        "email" TEXT NOT NULL,
+        "password" TEXT NOT NULL,
+        "emailVerified" BOOLEAN DEFAULT false NOT NULL,
+        "emailVerificationToken" TEXT,
+        "passwordResetToken" TEXT,
+        "passwordResetExpires" TIMESTAMPTZ,
+        "createdAt" TIMESTAMPTZ default now() NOT NULL,
+        CONSTRAINT "users_pk" PRIMARY KEY ("userId")
 ) WITH (
   OIDS=FALSE
 );
