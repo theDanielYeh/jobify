@@ -3,7 +3,7 @@ const ClientError = require('./client-error');
 
 function authorizationMiddleware(req, res, next) {
 
-  const token = req.get('X-Access-Token');
+  const token = req.cookies.token;
 
   if (!token) {
     throw new ClientError(401, 'authentication required');

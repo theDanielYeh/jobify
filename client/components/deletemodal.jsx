@@ -13,17 +13,18 @@ export default class ConfirmDelete extends React.Component {
     const toggle = this.props.handleMe;
     toggle();
     const deleteId = this.props.dataToDelete;
+    const { csrfToken, handleCardEvents } = this.context;
     const req = {
       method: 'DELETE',
+      credentials: 'include',
       headers: {
         'Content-Type': 'application/json',
-        'X-Access-Token': localStorage.getItem('react-context-jwt')
+        'X-CSRF-Token': csrfToken
       }
     };
 
     fetch(`/api/auth/delete-card/${deleteId}`, req)
       .then(result => {
-        const { handleCardEvents } = this.context;
         handleCardEvents();
       });
   }

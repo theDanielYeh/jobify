@@ -2,7 +2,6 @@ import React from 'react';
 import Home from './pages/home';
 import Dashboard from './pages/dashboard';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import decodeToken from './lib/decode-token';
 import AppContext from './lib/app-context';
 
 export default class App extends React.Component {
@@ -11,6 +10,7 @@ export default class App extends React.Component {
     super(props);
     this.state = {
       user: null,
+      csrfToken: '',
       isAuthorizing: true,
       load: false
     };
@@ -20,26 +20,50 @@ export default class App extends React.Component {
   }
 
   componentDidMount() {
-    const token = window.localStorage.getItem('react-context-jwt');
-    const user = token ? decodeToken(token) : null;
-    this.setState({ user, isAuthorizing: false });
+    fetch('/api/csrf-token', { credentials: 'include' })
+      .then(res => res.json())
+      .then(({ csrfToken }) => {
+        this.setState({ csrfToken });
+        return fetch('/api/auth/handleCardEvents', {
+          method: 'POST',
+          credentials: 'include',
+          headers: {
+            'Content-Type': 'application/json',
+            'X-CSRF-Token': csrfToken
+          },
+          body: JSON.stringify({})
+        });
+      })
+      .then(res => {
+        if (!res.ok) {
+          this.setState({ isAuthorizing: false });
+          return null;
+        }
+        return res.json();
+      })
+      .then(result => {
+        if (result && result.user) {
+          this.setState({ user: result.user, isAuthorizing: false });
+        } else {
+          this.setState({ isAuthorizing: false });
+        }
+      });
   }
 
   handleSignIn(result) {
-    const { user, token } = result;
-    window.localStorage.setItem('react-context-jwt', token);
-    this.setState({ user });
-    this.setState({ load: true });
+    const { user } = result;
+    this.setState({ user, load: true });
   }
 
   handleCardEvents() {
     const req = {
       method: 'POST',
+      credentials: 'include',
       headers: {
         'Content-Type': 'application/json',
-        'X-Access-Token': localStorage.getItem('react-context-jwt')
+        'X-CSRF-Token': this.state.csrfToken
       },
-      body: JSON.stringify(this.state)
+      body: JSON.stringify({})
     };
     fetch('/api/auth/handleCardEvents', req)
       .then(res => res.json())
@@ -52,15 +76,21 @@ export default class App extends React.Component {
   }
 
   handleSignOut() {
-    window.localStorage.removeItem('react-context-jwt');
-    this.setState({ user: null });
+    fetch('/api/auth/sign-out', {
+      method: 'POST',
+      credentials: 'include',
+      headers: { 'X-CSRF-Token': this.state.csrfToken }
+    })
+      .then(() => {
+        this.setState({ user: null });
+      });
   }
 
   render() {
     const loaderStatus = this.state.load ? 'loader' : 'hidden';
-    const { user } = this.state;
+    const { user, csrfToken } = this.state;
     const { handleSignIn, handleSignOut, handleCardEvents } = this;
-    const contextValue = { user, handleSignIn, handleSignOut, handleCardEvents };
+    const contextValue = { user, csrfToken, handleSignIn, handleSignOut, handleCardEvents };
     const pageToRender = !user ? <Home /> : <Dashboard />;
     return (
       <AppContext.Provider value={contextValue}>

@@ -38,21 +38,26 @@ export default class LoginPage extends React.Component {
 
   handleSubmit(event) {
     event.preventDefault();
-    const req = {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(this.state)
-    };
-
     if (this.state.password.length > 0) {
       this.setState({ load: true });
-      fetch('/api/auth/sign-in', req)
+      fetch('/api/csrf-token', { credentials: 'include' })
+        .then(res => res.json())
+        .then(({ csrfToken }) => {
+          const req = {
+            method: 'POST',
+            credentials: 'include',
+            headers: {
+              'Content-Type': 'application/json',
+              'X-CSRF-Token': csrfToken
+            },
+            body: JSON.stringify(this.state)
+          };
+          return fetch('/api/auth/sign-in', req);
+        })
         .then(res => res.json())
         .then(result => {
           this.setState({ load: false });
-          if (result.user && result.token) {
+          if (result.user) {
             const { handleSignIn } = this.context;
             handleSignIn(result);
             this.setState({ loginError: false });

@@ -48,9 +48,9 @@ export default class Dashboard extends React.Component {
   handleEditCard(jobId) {
     const req = {
       method: 'GET',
+      credentials: 'include',
       headers: {
-        'Content-Type': 'application/json',
-        'X-Access-Token': localStorage.getItem('react-context-jwt')
+        'Content-Type': 'application/json'
       }
     };
     fetch(`/api/auth/saved-card/${jobId}`, req)

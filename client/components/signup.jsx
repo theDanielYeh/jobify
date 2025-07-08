@@ -48,22 +48,28 @@ export default class SignUp extends React.Component {
 
   handleSubmit(event) {
     event.preventDefault();
-    const req = {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(this.state)
-    };
     if (this.state.password.length > 7 && this.state.confirmPassword === this.state.password) {
       this.setState({ load: true });
-      fetch('/api/auth/sign-up', req)
+      fetch('/api/csrf-token', { credentials: 'include' })
+        .then(res => res.json())
+        .then(({ csrfToken }) => {
+          const req = {
+            method: 'POST',
+            credentials: 'include',
+            headers: {
+              'Content-Type': 'application/json',
+              'X-CSRF-Token': csrfToken
+            },
+            body: JSON.stringify(this.state)
+          };
+          return fetch('/api/auth/sign-up', req);
+        })
         .then(res => res.json())
         .then(result => {
           this.setState({ load: false });
           if (!result) {
             this.setState({ emailInUse: true });
-          } else if (result.user && result.token) {
+          } else if (result.user) {
             const { handleSignIn } = this.context;
             handleSignIn(result);
             this.setState({ emailInUse: false });

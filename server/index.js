@@ -1,6 +1,8 @@
 require('dotenv/config');
 const path = require('path');
 const express = require('express');
+const cookieParser = require('cookie-parser');
+const csurf = require('csurf');
 const errorMiddleware = require('./error-middleware');
 
 const app = express();
@@ -25,8 +27,14 @@ if (process.env.NODE_ENV === 'development') {
 }
 
 const jsonMiddleware = express.json();
+app.use(cookieParser());
 app.use(jsonMiddleware);
+app.use(csurf({ cookie: true }));
 const authorizationMiddleware = require('./authorization-middleware');
+
+app.get('/api/csrf-token', (req, res) => {
+  res.json({ csrfToken: req.csrfToken() });
+});
 
 app.post('/api/auth/sign-up', (req, res, next) => {
   const { firstName, lastName, email, password } = req.body;
@@ -62,7 +70,8 @@ app.post('/api/auth/sign-up', (req, res, next) => {
             const { userId, email, firstName } = result.rows[0];
             const payload = { userId, email, firstName };
             const token = jwt.sign(payload, process.env.TOKEN_SECRET);
-            res.status(201).json({ token, user: payload });
+            res.cookie('token', token, { httpOnly: true, sameSite: 'strict' });
+            res.status(201).json({ user: payload });
           })
           .catch(err => next(err));
       }
@@ -96,10 +105,16 @@ app.post('/api/auth/sign-in', (req, res, next) => {
           }
           const payload = { userId, firstName };
           const token = jwt.sign(payload, process.env.TOKEN_SECRET);
-          res.json({ token, user: payload });
+          res.cookie('token', token, { httpOnly: true, sameSite: 'strict' });
+          res.json({ user: payload });
         });
     })
     .catch(err => next(err));
+});
+
+app.post('/api/auth/sign-out', (req, res) => {
+  res.clearCookie('token');
+  res.sendStatus(204);
 });
 
 app.use(authorizationMiddleware);

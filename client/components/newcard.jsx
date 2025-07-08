@@ -27,18 +27,19 @@ export default class NewCard extends React.Component {
     event.preventDefault();
     const toggle = this.props.handleMe;
     toggle();
+    const { csrfToken, handleCardEvents } = this.context;
     const req = {
       method: 'POST',
+      credentials: 'include',
       headers: {
         'Content-Type': 'application/json',
-        'X-Access-Token': localStorage.getItem('react-context-jwt')
+        'X-CSRF-Token': csrfToken
       },
       body: JSON.stringify(this.state)
     };
     fetch('/api/auth/new-card', req)
       .then(res => res.json())
       .then(result => {
-        const { handleCardEvents } = this.context;
         handleCardEvents();
       });
   }
