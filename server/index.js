@@ -415,6 +415,7 @@ app.delete('/api/auth/delete-card/:deleteJobId',
 
 app.use(errorMiddleware);
 
-app.listen(process.env.PORT, () => {
-  logger.info(`app listening on port ${process.env.PORT}`);
+const port = process.env.PORT || 3000;
+app.listen(port, () => {
+  logger.info(`app listening on port ${port}`);
 });
