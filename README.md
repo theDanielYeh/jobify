@@ -83,6 +83,12 @@ Try the application live at [https://another-jobify-app.herokuapp.com/]
 
 9. Start development environment
 
-  ```shell
+ ```shell
   npm run dev
+  ```
+
+10. Build the client for production
+
+  ```shell
+  npm run build
   ```
