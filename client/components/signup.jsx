@@ -21,6 +21,7 @@ export default class SignUp extends React.Component {
     this.handlePasswordChange = this.handlePasswordChange.bind(this);
     this.handleConfirmPasswordChange = this.handleConfirmPasswordChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
+    this.handleGoogleClick = this.handleGoogleClick.bind(this);
   }
 
   handleFirstName(event) {
@@ -44,6 +45,34 @@ export default class SignUp extends React.Component {
 
   handleConfirmPasswordChange(event) {
     this.setState({ confirmPassword: event.target.value });
+  }
+
+  handleGoogleClick() {
+    this.setState({ load: true });
+    const googleWindow = window.open('/api/auth/google', 'google', 'width=500,height=600');
+    const timer = setInterval(() => {
+      if (!googleWindow || googleWindow.closed) {
+        clearInterval(timer);
+        this.setState({ load: false });
+        return;
+      }
+      try {
+        const { body } = googleWindow.document;
+        const text = body && body.innerText;
+        if (text) {
+          const data = JSON.parse(text);
+          if (data.token && data.user) {
+            const { handleSignIn } = this.context;
+            handleSignIn(data);
+            this.setState({ emailInUse: false, load: false });
+            googleWindow.close();
+            clearInterval(timer);
+          }
+        }
+      } catch (err) {
+        // ignore cross-origin errors until redirect returns to our domain
+      }
+    }, 500);
   }
 
   handleSubmit(event) {
@@ -153,6 +182,7 @@ export default class SignUp extends React.Component {
           <Button className="signin-button" variant="primary" type="submit">
             Get started
           </Button>
+          <Button className='google-b' onClick={this.handleGoogleClick}>Sign up with Google</Button>
         </Form>
       </div>
     );
