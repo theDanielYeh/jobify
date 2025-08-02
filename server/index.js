@@ -200,6 +200,43 @@ app.get('/api/auth/google/callback',
     res.json({ token, user: payload });
   });
 
+app.post('/api/auth/google-token', (req, res, next) => {
+  const { credential } = req.body;
+  if (!credential) {
+    throw new ClientError(400, 'google credential required');
+  }
+  fetch(`https://oauth2.googleapis.com/tokeninfo?id_token=${credential}`)
+    .then(r => r.json())
+    .then(data => {
+      if (data.error_description || data.aud !== process.env.GOOGLE_CLIENT_ID) {
+        throw new ClientError(401, 'invalid google token');
+      }
+      const email = data.email;
+      const first = data.given_name || '';
+      const last = data.family_name || '';
+      const findSql = 'select * from "users" where "email" = $1';
+      return db.query(findSql, [email])
+        .then(result => {
+          if (result.rows.length) return result.rows[0];
+          const insertSql = `
+            insert into "users" ("firstName","lastName","email","password")
+            values ($1,$2,$3,'')
+            returning "userId","email","firstName"`;
+          const params = [first, last, email];
+          return db.query(insertSql, params).then(r => r.rows[0]);
+        });
+    })
+    .then(user => {
+      const { userId, email, firstName } = user;
+      const payload = { userId, email, firstName };
+      const token = jwt.sign(payload, process.env.TOKEN_SECRET, {
+        expiresIn: process.env.JWT_EXPIRES_IN
+      });
+      res.json({ token, user: payload });
+    })
+    .catch(err => next(err));
+});
+
 app.get('/api/auth/twitter', passport.authenticate('twitter'));
 app.get('/api/auth/twitter/callback',
   passport.authenticate('twitter', { session: false }),
