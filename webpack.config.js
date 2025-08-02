@@ -50,7 +50,7 @@ module.exports = {
   stats: 'minimal',
   devtool: isDevelopment ? 'cheap-module-source-map' : 'source-map',
   plugins: [
-    new webpack.EnvironmentPlugin([]),
+    new webpack.EnvironmentPlugin(['GOOGLE_CLIENT_ID']),
     isDevelopment && new ReactRefreshWebpackPlugin(),
     isDevelopment && new webpack.NoEmitOnErrorsPlugin(),
     isDevelopment && new webpack.HotModuleReplacementPlugin()
